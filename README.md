@@ -3,7 +3,13 @@ Enterprise GTM Starter
 
 Example project showcasing how to use Replicated vendor APIs to build a go-to-market portal to allow end customers to self-service signups and license downloads.
 
+Deploy to your cloud
+---------------------
 
+```
+brew install ship
+ship init github.com/replicatedhq/enterprise-gtm-starter
+```
 
 Developing 
 ------------
