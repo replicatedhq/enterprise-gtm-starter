@@ -1,0 +1,5 @@
+resources:
+  - ./deployment-backend.yaml
+  - ./deployment-frontend.yaml
+  - ./clusterip.yaml
+  - ./secret-backend.yaml

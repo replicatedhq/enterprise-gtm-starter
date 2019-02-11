@@ -1,0 +1,17 @@
+{
+  "extends": [
+	"tslint-no-unused-expression-chai",
+    "tslint-config-replicated"
+  ],
+  "rules": {
+	  "await-promise": [true, "Request"],
+	  "no-http-string": false,
+	  "promise-function-async": false,
+	  "newline-before-return": false,
+	  "cyclomatic-complexity": [true, 7],
+	  "no-unused-variable": true,
+	  "no-implicit-dependencies": [true, "dev"],
+	  "no-unused-expression": false,
+	  "object-literal-sort-keys": false
+  }
+}

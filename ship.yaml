@@ -1,0 +1,109 @@
+assets:
+  v1:
+    - github:
+        proxy: false
+        repo: replicatedhq/enterprise-gtm-starter
+        ref: master
+        path: /kustomize/overlays/dist
+        strip_path: true
+        dest: kustomize/overlays/dist
+    - github:
+        proxy: false
+        repo: replicatedhq/enterprise-gtm-starter
+        ref: master
+        path: /kustomize/base
+        strip_path: true
+        dest: kustomize/base
+config:
+  v1:
+    - name: app
+      title: Replicated Vendor Config
+      items:
+        - name: api_token
+          title: Replicated API Token
+          help_text: Enter a Replicated API (with write access) that will be used to create new customer records on vendor.replicated.com
+          required: true
+        - name: app_id
+          title: Replicated App ID
+          help_text: Enter the ID of the Replicated app that you want to create licenses for. The application ID can be found under the "Settings" tab in vendor.replicated.com
+          required: true
+        - name: channel_id
+          title: Replicated Channel ID
+          help_text: Enter the channel ID of the Replicated app that new licenses should be added to. If you have the Replicated CLI configured, you can get channel IDs with `replicated channel ls`
+          required: true
+    - name: site
+      title: Site Config
+      items:
+        - name: title
+          title: Application Name
+          help_text: Enter the name of your application
+          default: "my excellent enterprise tool"
+          required: true
+        - name: intro_markdown
+          type: textarea
+          title: Introduction Markdown
+          help_text: Enter some markdown that describes your application.
+          default: |
+            ## Try Super Big Tool Free for 30 days
+
+            - Runs behind your firewall
+            - Packed with enterprise-ready features
+        - name: install_markdown
+          type: textarea
+          title: Installation Markdown
+          help_text: Enter some markdown that will be displayed after a license is downloaded.
+          default: |
+            ## You're ready to install
+
+            ```
+            curl https://get.replicated.com/kubernetes-init | sudo bash
+            ```
+    - name: license
+      title: License Defaults
+      items:
+        - name: trial_duration
+          title: Trial Duration
+          help_text: Enter the default length of the trial (from the signup date) in days.
+          default: "30"
+        - name: expiration_policy
+          title: Expiration Policy for new licenses
+          type: select_one
+          default: "noupdate-stop"
+          items:
+            - name: noupdate-stop
+              title: "Prevent updates and stop all containers"
+            - name: noupdate-norestart
+              title: "Prevent updates and prevent restarting"
+            - name: ignore
+              title: "Ignore"
+        - name: license_type
+          title: License Type
+          type: select_one
+          default: "trial"
+          items:
+            - name: trial
+              title: "Trial"
+            - name: paid
+              title: "Paid"
+        - name: require_activation
+          title: Require users to confirm email address before installing
+          type: bool
+          recommended: true
+          default: "1"
+        - name: enable_clustering
+          title: Enable Multi-node installs
+          type: bool
+          default: "1"
+
+lifecycle:
+  v1:
+    - config: {}
+    - render:
+        root: "."
+    - kustomizeIntro: {}
+    - kustomize:
+        base: kustomize/overlays/dist
+        overlay: kustomize/overlays/ship
+        dest: gtm.yaml
+    - message:
+        contents: "### 👏 you're done"

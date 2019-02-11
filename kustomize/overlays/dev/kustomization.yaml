@@ -1,0 +1,11 @@
+bases:
+  - ../../base
+
+patches:
+  - ./deployment-backend.yaml
+
+resources:
+  - ./loadbalancer-frontend.yaml
+  - ./lint-pod.yaml
+  - ./unittest-pod.yaml
+  - ./integrationtest-pod.yaml

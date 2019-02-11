@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: unittests
+spec:
+  restartPolicy: Never
+  containers:
+    - image: unittests
+      name: unittests
+

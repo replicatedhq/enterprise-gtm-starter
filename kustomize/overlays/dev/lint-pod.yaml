@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: lint
+spec:
+  restartPolicy: Never
+  containers:
+    - image: lint
+      name: lint
+

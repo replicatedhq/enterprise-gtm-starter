@@ -1,0 +1,9 @@
+namespace: gotomarket
+bases:
+  - ../../base
+resources:
+  - ./namespace.yaml
+patches:
+  - ./deployment-frontend.yaml
+  - ./deployment-backend.yaml
+  - ./secret-backend.yaml

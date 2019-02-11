@@ -1,0 +1,79 @@
+h1 {
+    padding: 20px;
+  font-weight: lighter;
+}
+
+body {
+  background: #111;
+}
+
+.App {
+  color: #eee;
+  text-align: center;
+  margin: auto;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: #eee;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+
+.container {
+  text-align: left;
+  width: 90%;
+  height: 800px;
+  padding: 10px;
+}
+
+.sidebox {
+  width: 60%;
+  float: left;
+  text-align: left
+}
+
+.form {
+  margin-left: 15%;
+  text-align: center;
+}
+
+input {
+  height: 30px;
+  width: 30%;
+}
+
+button {
+  height: 50px;
+  width: 25%;
+  background: #294;
+  font-size: large;
+  font-weight: bold;
+  color: #eee;
+  -webkit-border-radius: 1px;
+  -moz-border-radius: 1px;
+  border-radius: 1px;
+  border: 0;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+button.error {
+    background: indianred;
+    cursor: auto;
+    font-weight: lighter;
+}
+
+
+
