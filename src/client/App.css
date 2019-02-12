@@ -87,6 +87,11 @@ textarea {
   box-sizing: border-box;
 }
 
+.button-wrapper {
+  text-align: center;
+  margin-top: 24px;
+}
+
 button {
   padding: 14px 20px 13px;
   background: rgb(34, 153, 58);

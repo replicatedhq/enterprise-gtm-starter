@@ -95,12 +95,14 @@ class Form extends Component {
             placeholder="Email"
             onChange={(event) => this.setState({email: event.target.value})}
           />
-          <button
-            {...buttonExtra}
-            onClick={(event) => this.handleClick(event)}
-          >
-            {buttonLabel}
-          </button>
+          <div className="button-wrapper">
+            <button
+              {...buttonExtra}
+              onClick={(event) => this.handleClick(event)}
+            >
+              {buttonLabel}
+            </button>
+          </div>
         </div>
       </div>
     );
