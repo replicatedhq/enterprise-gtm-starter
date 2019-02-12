@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import Markdown from "react-markdown";
-import './App.css';
 import {Form} from "./Form";
 
 const apiBaseURL = "/api/v1";
@@ -64,11 +63,11 @@ class App extends Component {
         <div>
           <div>
             <h1>{this.state.title}</h1>
-            <section className={"container"}>
+            <section className="container">
               <Form
                 gtmAPIBaseURL={apiBaseURL}
                 sidebox={(<div className="sidebox"><Markdown source={this.state.introMarkdown}/></div>)}
-                onSubmit={(<div className="install"><Markdown source={this.state.installMarkdown}/></div>)}
+                onSubmitFinished={(<div className="install"><Markdown source={this.state.installMarkdown}/></div>)}
 
               />
             </section>

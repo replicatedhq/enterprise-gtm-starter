@@ -1,0 +1,29 @@
+/* < 568px */
+@media only screen and (max-width: 35.5em) {
+  .sidebox {
+    width: 100%;
+    display: block;
+    text-align: left;
+    padding-right: 0;
+  }
+  
+  .Form {
+    width: 100%;
+    margin-top: 20px;
+    display: block;
+    text-align: left;
+    padding-left: 0;
+  }
+}
+
+/* < 768px */
+@media only screen and (max-width: 48em) { }
+
+/* < 960 */
+@media only screen and (max-width: 60em) { }
+
+/* < 1024px */
+@media only screen and (max-width: 64em) { }
+
+/* ≥ 1280px */
+@media only screen and (max-width: 80em) { }

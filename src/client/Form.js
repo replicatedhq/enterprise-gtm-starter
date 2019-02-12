@@ -73,50 +73,40 @@ class Form extends Component {
       buttonExtra = {disabled: true};
       buttonLabel = "Requesting";
     } else if (this.state.done) {
-      return this.props.onSubmit;
-    } else if (this.state.error) {
-      buttonLabel = this.state.errorMessage || "Failed";
+      return this.props.onSubmitFinished;
     }
 
     return (
-      <div className="form">
+      <div className="Form-wrapper">
         {this.props.sidebox}
-        <input
-          style={style.input}
-          placeholder="Your Name"
-          onChange={(event) => this.setState({name: event.target.value})}
-        />
-        <br/>
-        <input
-          style={style.input}
-          placeholder="Organization"
-          onChange={(event) => this.setState({org: event.target.value})}
-        />
-        <br/>
-        <input
-          style={style.input}
-          placeholder="Email"
-          onChange={(event) => this.setState({email: event.target.value})}
-        />
-        <br/>
-        <button className={this.state.error ? "error" : ""}
-                {...buttonExtra}
-                style={style.button}
-                onClick={(event) => this.handleClick(event)}>
-          {buttonLabel}
-        </button>
+        <div className="Form">
+          {this.state.error &&
+            <div className="Form-error">{this.state.errorMessage}</div>
+          }
+          <input
+            placeholder="Your Name"
+            onChange={(event) => this.setState({name: event.target.value})}
+          />
+          <input
+            placeholder="Organization"
+            onChange={(event) => this.setState({org: event.target.value})}
+          />
+          <input
+            placeholder="Email"
+            onChange={(event) => this.setState({email: event.target.value})}
+          />
+          <div className="button-wrapper">
+            <button
+              {...buttonExtra}
+              onClick={(event) => this.handleClick(event)}
+            >
+              {buttonLabel}
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
 }
-
-const style = {
-  button: {
-    margin: 15,
-  },
-  input: {
-    margin: 5,
-  }
-};
 
 export {Form};
