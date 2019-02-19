@@ -97,6 +97,15 @@ lifecycle:
     - kustomize:
         base: kustomize/dist
         overlay: kustomize/overlays/ship
-        dest: gtm.yaml
+        dest: rendered.yaml
     - message:
-        contents: "### 👏 you're done"
+        contents: |
+          ### 👏 You're all set
+
+          Kubernetes manifests have been rendered at `rendered.yaml`.
+
+          If you have `kubectl` configured locally, you can deploy to your cluster with
+
+              kubectl apply -f rendered.yaml
+
+
