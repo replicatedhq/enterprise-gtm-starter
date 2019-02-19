@@ -1,7 +1,7 @@
 import * as moment from "moment";
 import { ReplicatedVendorClient } from "../vendorclient/api";
 import { logger } from "./logger";
-import { Params, SignupDefaults } from "./params";
+import { Params} from "./params";
 
 export class Signup {
   private readonly clock: () => moment.Moment;
