@@ -28,11 +28,11 @@ nodejs_build('frontend', 'npm run --silent start-fe', [
     'public',
 ]).hot_reload()
 
-nodejs_build('unittests', 'npm run --silent test', [
+nodejs_build('unittests', 'npm run --silent test:watch', [
     'src/server',
     'src/vendorclient',
     'test',
-])
+]).hot_reload()
 
 nodejs_build('lint', 'npm run --silent tslint:watch', [
     'src/',

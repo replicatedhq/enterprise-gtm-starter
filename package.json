@@ -14,7 +14,8 @@
     "start-fe": "react-scripts start",
     "build-fe": "react-scripts build",
     "test-fe": "react-scripts test --env=jsdom",
-    "tslint:watch": "npm run tslint && onchange 'src/**/*.*s' -- npm run tslint"
+    "tslint:watch": "npm run tslint && onchange 'src/**/*.*s' -- npm run tslint",
+    "test:watch": "npm test && onchange 'src/**/*.*s' -- npm test"
   },
   "author": "replicatedhq",
   "dependencies": {

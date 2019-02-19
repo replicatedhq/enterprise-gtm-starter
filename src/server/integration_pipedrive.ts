@@ -10,12 +10,12 @@ export class PipedriveClient {
     private readonly params: Params,
   ) {
     this.pipedrive = new Pipedrive.Client(
-      this.params.pipedriveAPIToken,
+      this.params && this.params.pipedriveAPIToken,
       {strictMode: true},
     );
   }
 
-  public async createPipedriveDeal(name: any, org: any, email: any): Promise<void> {
+  async createPipedriveDeal(name: any, org: any, email: any): Promise<void> {
     logger.info({msg: "creating deal in pipedrive", org});
 
     const orgId = await this.getOrCreateOrg(org);

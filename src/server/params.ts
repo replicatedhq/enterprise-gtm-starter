@@ -48,20 +48,6 @@ export type Params = LoggerParams &
   PipedriveParams &
   { port: number };
 
-function getPipedriveParams() {
-  return {
-    pipedriveEnabled: !!process.env.SIGNUP_PIPEDRIVE_ENABLED,
-    pipedriveAPIToken: process.env.SIGNUP_PIPEDRIVE_ENABLED ? requireParam("SIGNUP_PIPEDRIVE_API_TOKEN") : ""
-  };
-}
-
-function getWebhookParams() {
-  return {
-    webhookEnabled: !!process.env.SIGNUP_WEBHOOK_ENABLED,
-    webhookTarget: process.env.SIGNUP_WEBHOOK_ENABLED ? requireParam("SIGNUP_WEBHOOK_TARGET") : ""
-  };
-}
-
 export function getParams(): Params {
   const params = {
     replicatedVendorAPIKey: requireParam("REPLICATED_API_TOKEN"),
@@ -130,6 +116,13 @@ ${"```"}
   };
 }
 
+function getWebhookParams() {
+  return {
+    webhookEnabled: !!process.env.SIGNUP_WEBHOOK_ENABLED,
+    webhookTarget: process.env.SIGNUP_WEBHOOK_ENABLED ? requireParam("SIGNUP_WEBHOOK_TARGET") : ""
+  };
+}
+
 function getSalesforceParams() {
   return {
     salesforceEnabled: !!process.env.SIGNUP_SALESFORCE_ENABLED,
@@ -138,4 +131,9 @@ function getSalesforceParams() {
   };
 }
 
-
+function getPipedriveParams() {
+  return {
+    pipedriveEnabled: !!process.env.SIGNUP_PIPEDRIVE_ENABLED,
+    pipedriveAPIToken: process.env.SIGNUP_PIPEDRIVE_ENABLED ? requireParam("SIGNUP_PIPEDRIVE_API_TOKEN") : ""
+  };
+}
