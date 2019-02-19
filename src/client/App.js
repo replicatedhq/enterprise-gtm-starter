@@ -65,10 +65,10 @@ class App extends Component {
             <h1>{this.state.title}</h1>
             <section className="container">
               <Form
+                title={this.state.title}
                 gtmAPIBaseURL={apiBaseURL}
                 sidebox={(<div className="sidebox"><Markdown source={this.state.introMarkdown}/></div>)}
                 onSubmitFinished={(<div className="install"><Markdown source={this.state.installMarkdown}/></div>)}
-
               />
             </section>
           </div>

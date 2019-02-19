@@ -31,7 +31,10 @@ class Form extends Component {
         method: "POST",
       });
 
+      const body = await resp.json();
       if (resp.status === 200) {
+        const downloadFileName = this.props.title.toLowerCase().replace(/[\W_]+/g,"-");
+        await this.downloadLicense(`${downloadFileName}.rli`, body.license);
         this.setState({
           done: true,
           loading: false,
@@ -39,7 +42,6 @@ class Form extends Component {
         return;
       }
 
-      const body = await resp.json();
       this.setState({
         error: true,
         errorMessage: body.error.message,
@@ -63,6 +65,20 @@ class Form extends Component {
     }
 
 
+  }
+
+  // thanks https://stackoverflow.com/a/18197341/10055299
+  async downloadLicense(filename, text) {
+    const element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
   }
 
   render() {
