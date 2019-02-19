@@ -5,6 +5,7 @@ import { VendorClient } from "../vendorclient/impl";
 import { Config } from "./handler_config";
 import { Healthz } from "./handler_healthz";
 import { Signup } from "./handler_signup";
+import { PipedriveClient } from "./integration_pipedrive";
 import { logger } from "./logger";
 import { Params } from "./params";
 
@@ -22,10 +23,11 @@ export class Server {
     );
 
     const vendorClient = new VendorClient(this.params);
+    const pipedriveClient = new PipedriveClient(this.params);
 
     const healthz = new Healthz(this.params);
     const config = new Config(this.params);
-    const signup = new Signup(this.params, vendorClient);
+    const signup = new Signup(this.params, vendorClient, pipedriveClient);
 
     app.get("/healthz", healthz.handler.bind(healthz));
     app.get("/api/v1/config", config.handler.bind(config));

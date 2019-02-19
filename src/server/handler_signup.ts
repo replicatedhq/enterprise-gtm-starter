@@ -1,7 +1,7 @@
 import * as moment from "moment";
-import * as pipedrive from "pipedrive";
 import * as request from "request-promise";
 import { ReplicatedVendorClient } from "../vendorclient/api";
+import { PipedriveClient } from "./integration_pipedrive";
 import { logger } from "./logger";
 import { Params } from "./params";
 
@@ -11,8 +11,8 @@ export class Signup {
   constructor(
     private readonly params: Params,
     private readonly replicatedClient: ReplicatedVendorClient,
-    clock?: () => moment.Moment,
-  ) {
+    private readonly pipedriveClient: PipedriveClient,
+    clock?: () => moment.Moment, ) {
     this.clock = clock || moment;
   }
 
@@ -66,29 +66,11 @@ export class Signup {
 
   private async fireIntegrations(name: any, org: any, email: any, customer) {
     if (this.params.webhookEnabled) {
-      logger.info({msg: "firing webhook"});
-      const opts = {
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify({name, org, email, replicated_customer_id: customer.Id}),
-      };
-
-      await request.post(`${this.params.webhookTarget}`, opts);
+      await this.deliverWebhook(name, org, email, customer);
     }
 
     if (this.params.pipedriveEnabled) {
-      const title = this.getLeadName(name, org, email); // this should get-or-create a contact and an org
-      logger.info({msg: "creating deal in pipedrive", title});
-      await new Promise((resolve, reject) => {
-        pipedrive.Deals.add({ title }, (err, data) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(data);
-          }
-        });
-      });
+      await this.pipedriveClient.createPipedriveDeal(name, org, email);
     }
 
     if (this.params.salesforceEnabled) {
@@ -96,4 +78,18 @@ export class Signup {
       logger.info({msg: "skipping salesforce lead creation, not implemented"});
     }
   }
+
+  private async deliverWebhook(name: any, org: any, email: any, customer) {
+    logger.info({msg: "firing webhook"});
+    const opts = {
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({name, org, email, replicated_customer_id: customer.Id}),
+    };
+
+    await request.post(`${this.params.webhookTarget}`, opts);
+  }
+
+
 }

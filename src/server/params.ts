@@ -46,7 +46,7 @@ export type Params = LoggerParams &
   WebhookParams &
   SalesforceParams &
   PipedriveParams &
-  { port: number; };
+  { port: number };
 
 function getPipedriveParams() {
   return {
