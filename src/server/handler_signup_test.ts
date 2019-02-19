@@ -26,7 +26,7 @@ describe("Signup", () => {
     client
       .setup(x =>
         x.createLicense({
-          assignee: "a@b.c",
+          assignee: "User at SomeBigBank (a@b.c)",
           licenseType: "trial",
           expirationDate: expectedExpiration.toDate(),
           expirationPolicy: "noupdate-norestart",
@@ -48,6 +48,8 @@ describe("Signup", () => {
 
     const result = await signup.doTrialSignup({
       email: "a@b.c",
+      name: "User",
+      org: "SomeBigBank"
     });
 
     client.verifyAll();

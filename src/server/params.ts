@@ -23,11 +23,44 @@ export type UIParams = {
   // allow for custom fields? or ConfigGroups?
 };
 
+
+export interface WebhookParams {
+  webhookEnabled: boolean;
+  webhookTarget: string;
+}
+
+export interface SalesforceParams {
+  salesforceEnabled: boolean;
+  salesforceDomain: string;
+  salesforceAPIToken: string;
+}
+
+export interface PipedriveParams {
+  pipedriveEnabled: boolean;
+  pipedriveAPIToken: string;
+}
+
 export type Params = LoggerParams &
   VendorParams &
-  UIParams & {
-    port: number;
+  UIParams &
+  WebhookParams &
+  SalesforceParams &
+  PipedriveParams &
+  { port: number; };
+
+function getPipedriveParams() {
+  return {
+    pipedriveEnabled: !!process.env.SIGNUP_PIPEDRIVE_ENABLED,
+    pipedriveAPIToken: process.env.SIGNUP_PIPEDRIVE_ENABLED ? requireParam("SIGNUP_PIPEDRIVE_API_TOKEN") : ""
   };
+}
+
+function getWebhookParams() {
+  return {
+    webhookEnabled: !!process.env.SIGNUP_WEBHOOK_ENABLED,
+    webhookTarget: process.env.SIGNUP_WEBHOOK_ENABLED ? requireParam("SIGNUP_WEBHOOK_TARGET") : ""
+  };
+}
 
 export function getParams(): Params {
   const params = {
@@ -45,6 +78,9 @@ export function getParams(): Params {
       expirationPolicy:
         (process.env.SIGNUP_DEFAULT_EXPIRATION_POLICY as any) || "noupdate-stop", // todo validate
     },
+    ...getWebhookParams(),
+    ...getPipedriveParams(),
+    ...getSalesforceParams(),
     ...getUIParams(),
     ...getLoggerParams(),
   };
@@ -93,4 +129,13 @@ ${"```"}
     `,
   };
 }
+
+function getSalesforceParams() {
+  return {
+    salesforceEnabled: !!process.env.SIGNUP_SALESFORCE_ENABLED,
+    salesforceDomain: process.env.SIGNUP_SALESFORCE_ENABLED ? requireParam("SIGNUP_SALESFORCE_DOMAIN") : "",
+    salesforceAPIToken: process.env.SIGNUP_SALESFORCE_ENABLED ? requireParam("SIGNUP_SALESFORCE_API_TOKEN") : ""
+  };
+}
+
 

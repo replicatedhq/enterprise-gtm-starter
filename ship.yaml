@@ -87,6 +87,60 @@ config:
           title: Enable Multi-node installs
           type: bool
           default: "1"
+    - name: webhooks
+      title: Webhook Integration
+      items:
+        - name: webhook_enabled
+          title: Deliver webhooks when licenses are created?
+          type: bool
+          default: "0"
+        - name: webhook_target
+          title: Webhook target url
+          type: text
+          when: '{{repl ConfigOptionEquals "webhook_enabled" "1"}}'
+        - name: webhook_example_payload
+          help_text: An example webhook payload is shown below
+          type: textarea
+          readonly: true
+          when: '{{repl ConfigOptionEquals "webhook_enabled" "1"}}'
+          value: |
+            {
+              "email": "user@somebigbank.com",
+              "name": "User McUserson",
+              "organization": "Some Big Bank, LLC",
+              "replicated_customer_id": "abc31ef91828e9d82b10934ffb4280ebd8f0abc"
+            }
+    - name: crm
+      title: CRM Integrations
+      items:
+        - name: pipedrive_enabled
+          title: Enable Pipedrive Integration?
+          type: bool
+          default: "0"
+        - name: pipedrive_api_token
+          help_text: Deals will be created in Pipedrive using the user-entered value from the "Organization" field
+          title: Pipedrive API Token
+          type: text
+          required: false
+          when: '{{repl ConfigOptionEquals "pipedrive_enabled" "1"}}'
+
+        - name: salesforce_enabled
+          title: Enable Salesforce Integration?
+          type: bool
+          default: "0"
+        - name: salesforce_domain
+          title: Salesforce Domain
+          help_text: Leads will be created in Salesforce using the user-entered value from the "Organization" field
+          type: text
+          default: 'yourInstance.salesforce.com'
+          when: '{{repl ConfigOptionEquals "salesforce_enabled" "1"}}'
+        - name: salesforce_api_token
+          title: Salesforce API Token
+          type: text
+          required: false
+          when: '{{repl ConfigOptionEquals "salesforce_enabled" "1"}}'
+
+
 
 lifecycle:
   v1:
