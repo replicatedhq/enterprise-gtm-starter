@@ -1,7 +1,7 @@
 import * as moment from "moment";
 import { ReplicatedVendorClient } from "../vendorclient/api";
 import { logger } from "./logger";
-import { Params, SignupDefaults } from "./params";
+import { Params} from "./params";
 
 export class Signup {
   private readonly clock: () => moment.Moment;
@@ -37,17 +37,12 @@ export class Signup {
   }
 
   async doTrialSignup(body: any): Promise<string> {
-    // read form, parse passthrough fields
-    const form: SignupDefaults & { email: string } = {
-      ...this.params.defaultSignupParams,
-      ...body,
-    };
 
     const expirationDate = this.clock();
     expirationDate.add(this.params.defaultSignupParams.trialDurationDays, "day");
     // create trial license
     const customer = await this.replicatedClient.createLicense({
-      assignee: form.email,
+      assignee: body.email,
       licenseType: "trial",
       expirationDate: expirationDate.toDate(),
       expirationPolicy: this.params.defaultSignupParams.expirationPolicy,

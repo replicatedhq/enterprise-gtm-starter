@@ -1,4 +1,5 @@
-import React, {Component} from 'react';
+import React, {Component} from "react";
+import * as FileSaver from "file-saver";
 
 class Form extends Component {
   constructor(props) {
@@ -31,7 +32,10 @@ class Form extends Component {
         method: "POST",
       });
 
+      const body = await resp.json();
       if (resp.status === 200) {
+        const downloadFileName = this.props.title.toLowerCase().replace(/[\W_]+/g,"-");
+        await this.browserDownload(`${downloadFileName}.rli`, body.license);
         this.setState({
           done: true,
           loading: false,
@@ -39,7 +43,6 @@ class Form extends Component {
         return;
       }
 
-      const body = await resp.json();
       this.setState({
         error: true,
         errorMessage: body.error.message,
@@ -63,6 +66,11 @@ class Form extends Component {
     }
 
 
+  }
+
+  async browserDownload(filename, text) {
+    const blob = new Blob([text], {type: "text/plain;charset=utf-8"});
+    FileSaver.saveAs(blob, filename);
   }
 
   render() {
