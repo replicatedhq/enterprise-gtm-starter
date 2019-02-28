@@ -6,7 +6,7 @@ assets:
         ref: master
         path: /kustomize/dist/
         strip_path: true
-        dest: kustomize/dist
+        dest: base
 config:
   v1:
     - name: app
@@ -149,8 +149,8 @@ lifecycle:
         root: "."
     - kustomizeIntro: {}
     - kustomize:
-        base: kustomize/dist
-        overlay: kustomize/overlays/ship
+        base: base
+        overlay: overlays/ship
         dest: rendered.yaml
     - message:
         contents: |
