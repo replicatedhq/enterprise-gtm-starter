@@ -1,0 +1,58 @@
+version: 2.1
+
+experimental:
+  notify:
+    branches:
+      only:
+        - master
+
+jobs:
+  test:
+    docker:
+      - image: circleci/node:8
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - npm-deps-{{ checksum "package-lock.json" }}
+            - npm-deps-
+      - run: npm install
+      - run: npm run tslint
+      - run: npm run test-fe
+      - run: npm run test-coverage
+      - save_cache:
+          paths: node_modules
+          key: npm-deps-{{ checksum "package-lock.json" }}
+  push_docker:
+    docker:
+      - image: circleci/node:8
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run: docker login --username $DOCKERHUB_USERNAME --password $DOCKERHUB_PASSWORD
+
+      - run: docker build -t replicated/gotomarket:${CIRCLE_TAG} .
+      - run: docker push replicated/gotomarket:${CIRCLE_TAG} .
+
+      - run: docker tag replicated/gotomarket:${CIRCLE_TAG} replicated/gotomarket:latest
+      - run: docker push replicated/gotomarket:latest
+
+
+workflows:
+  version: 2
+  pull_request:
+    jobs: [test]
+  release:
+    jobs:
+      - test:
+          filters:
+            tags:
+              only: /^v[0-9]+(\.[0-9]+)*(-.*)*/
+            branches:
+              ignore: /.*/
+      - push_docker:
+          filters:
+            tags:
+              only: /^v[0-9]+(\.[0-9]+)*(-.*)*/
+            branches:
+              ignore: /.*/

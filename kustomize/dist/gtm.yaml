@@ -18,7 +18,7 @@ data:
   SIGNUP_INSTALL_MARKDOWN: '{{repl ConfigOption "install_markdown" | Base64Encode}}'
   SIGNUP_INTRO_MARKDOWN: '{{repl ConfigOption "intro_markdown" | Base64Encode}}'
   SIGNUP_PIPEDRIVE_API_TOKEN: '{{repl ConfigOption "pipedrive_api_token" | Base64Encode }}'
-  SIGNUP_PIPEDRIVE_ENABLED: '{{repl ConfigOption "pipedrive_enabled" | Base64Encode }}'
+  SIGNUP_PIPEDRIVE_ENABLED: '{{repl if (ConfigOptionEquals "pipedrive_enabled" "1")}}{{repl Base64Encode "1" }}{{repl end}}'
   SIGNUP_SALESFORCE_API_TOKEN: '{{repl ConfigOption "salesforce_api_token" | Base64Encode }}'
   SIGNUP_SALESFORCE_DOMAIN: '{{repl ConfigOption "salesforce_domain" | Base64Encode }}'
   SIGNUP_SALESFORCE_ENABLED: '{{repl ConfigOption "salesforce_enabled" | Base64Encode }}'
