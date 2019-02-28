@@ -11,11 +11,14 @@ describe("Signup", () => {
     const email = `dexter+gtm-${moment().format(
       "YYYY-MM-DD--HH-mm-ss",
     )}@replicated.com`;
+    const org = "Some Big Bank";
+    const name = "User McUserson";
+
     const resp = await request.post(`${testenv.host}/api/v1/signup`, {
       headers: {
         "content-type": "application/json",
       },
-      body: JSON.stringify({ email }),
+      body: JSON.stringify({ email, org, name }),
     });
 
     // decode the response, make sure it has an id, etc

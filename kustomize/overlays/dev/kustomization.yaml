@@ -9,3 +9,4 @@ resources:
   - ./lint-pod.yaml
   - ./unittest-pod.yaml
   - ./integrationtest-pod.yaml
+  - ./secret-backend.yaml

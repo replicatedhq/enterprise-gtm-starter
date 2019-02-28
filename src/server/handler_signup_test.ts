@@ -4,11 +4,13 @@ import * as moment from "moment";
 import { Mock, Times } from "typemoq";
 import { ReplicatedVendorClient } from "../vendorclient/api";
 import { Signup } from "./handler_signup";
+import { PipedriveClient } from "./integration_pipedrive";
 import { Params } from "./params";
 
 describe("Signup", () => {
   it("processes a signup request", async () => {
     const client = Mock.ofType<ReplicatedVendorClient>();
+    const pdClient = Mock.ofType(PipedriveClient);
 
     const now = moment();
     const expectedExpiration = now.clone();
@@ -26,7 +28,7 @@ describe("Signup", () => {
     client
       .setup(x =>
         x.createLicense({
-          assignee: "a@b.c",
+          assignee: "User at SomeBigBank (a@b.c)",
           licenseType: "trial",
           expirationDate: expectedExpiration.toDate(),
           expirationPolicy: "noupdate-norestart",
@@ -44,10 +46,12 @@ describe("Signup", () => {
       .returns(() => Promise.resolve("some-base64-encoded-string"))
       .verifiable(Times.once());
 
-    const signup = new Signup(params, client.object, () => now);
+    const signup = new Signup(params, client.object, pdClient.object, () => now);
 
     const result = await signup.doTrialSignup({
       email: "a@b.c",
+      name: "User",
+      org: "SomeBigBank"
     });
 
     client.verifyAll();

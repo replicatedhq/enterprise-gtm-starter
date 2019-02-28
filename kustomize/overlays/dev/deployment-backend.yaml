@@ -7,6 +7,9 @@ spec:
     spec:
       containers:
         - name: backend
+          envFrom:
+            - secretRef:
+                name: backend
           env:
             - name: PINO_LOG_PRETTY
               value: "1"

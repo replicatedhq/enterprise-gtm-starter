@@ -14,6 +14,3 @@ spec:
       containers:
         - image: backend
           name: backend
-          envFrom:
-            - secretRef:
-                name: "backend"

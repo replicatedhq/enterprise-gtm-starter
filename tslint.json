@@ -9,7 +9,6 @@
 	  "promise-function-async": false,
 	  "newline-before-return": false,
 	  "cyclomatic-complexity": [true, 7],
-	  "no-unused-variable": true,
 	  "no-implicit-dependencies": [true, "dev"],
 	  "no-unused-expression": false,
 	  "object-literal-sort-keys": false
