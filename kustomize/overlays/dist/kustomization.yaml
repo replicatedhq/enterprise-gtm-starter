@@ -3,7 +3,7 @@ bases:
   - ../../base
 resources:
   - ./namespace.yaml
+  - ./secret-backend.yaml
 patches:
   - ./deployment-frontend.yaml
   - ./deployment-backend.yaml
-  - ./secret-backend.yaml
