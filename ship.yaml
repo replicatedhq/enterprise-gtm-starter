@@ -111,7 +111,7 @@ config:
               "replicated_customer_id": "abc31ef91828e9d82b10934ffb4280ebd8f0abc"
             }
     - name: crm
-      title: CRM Integrations
+      title: CRM Integrations (Beta)
       items:
         - name: pipedrive_enabled
           title: Enable Pipedrive Integration?

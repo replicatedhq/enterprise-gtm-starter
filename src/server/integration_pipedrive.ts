@@ -9,8 +9,8 @@ export class PipedriveClient {
   constructor(
     private readonly params: Params,
   ) {
-    this.pipedrive = new Pipedrive.Client(
-      this.params && this.params.pipedriveAPIToken,
+    this.pipedrive = this.params && new Pipedrive.Client(
+      this.params.pipedriveAPIToken,
       {strictMode: true},
     );
   }
@@ -50,6 +50,7 @@ export class PipedriveClient {
         }
       });
     });
+    logger.debug({orgs});
 
     if (orgs.length > 0) {
       return orgs[0].id
@@ -77,6 +78,7 @@ export class PipedriveClient {
         }
       });
     });
+    logger.debug({persons});
     if (persons.length > 0) {
       return persons[0].id;
     }
@@ -110,6 +112,15 @@ export class PipedriveClient {
     logger.debug({existingDeals});
 
     if (existingDeals.length > 0) {
+      await new Promise<any>((resolve, reject) => {
+        existingDeals[0].addParticipant({person_id: personId}, (err, data) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(data);
+          }
+        })
+      });
       return existingDeals[0].id;
     }
 
