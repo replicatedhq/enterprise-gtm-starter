@@ -17,7 +17,7 @@ def nodejs_build(image_name, entrypoint, paths):
     img.run('npm install', trigger=['package.json', 'package-lock.json'])
     return img
 
-nodejs_build('backend', 'npm run --silent start-backend', [
+nodejs_build('backend', 'npm run --silent start-be', [
     'src/server',
     'src/vendorclient',
 ])
@@ -38,7 +38,7 @@ nodejs_build('lint', 'npm run --silent tslint:watch', [
     'src/',
 ]).hot_reload()
 
-nodejs_build('integrationtest', 'npm run --silent integration-test', [
+nodejs_build('integrationtest', 'npm run --silent integration-test-be', [
     'src/integrationtest',
     'src/server',
     'src/vendorclient',
