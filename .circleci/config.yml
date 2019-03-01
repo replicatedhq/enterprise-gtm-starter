@@ -33,7 +33,7 @@ jobs:
       - run: docker login --username $DOCKERHUB_DOCKER_USER --password $DOCKERHUB_DOCKER_PASS
 
       - run: docker build -t replicated/gotomarket:${CIRCLE_TAG} .
-      - run: docker push replicated/gotomarket:${CIRCLE_TAG} .
+      - run: docker push replicated/gotomarket:${CIRCLE_TAG}
 
       - run: docker tag replicated/gotomarket:${CIRCLE_TAG} replicated/gotomarket:latest
       - run: docker push replicated/gotomarket:latest
