@@ -77,10 +77,10 @@ export function getParams(): Params {
 }
 
 
-function requireParam(key: string): string {
+function requireParam(key: string, msg?: string): string {
   const param = process.env[key];
   if (!param) {
-    throw new Error(`missing required parameter: ${key}`);
+    throw new Error(`missing required parameter: ${key} ${msg ? msg : ""}`);
   }
   return param;
 }
@@ -119,21 +119,21 @@ ${"```"}
 function getWebhookParams() {
   return {
     webhookEnabled: !!process.env.SIGNUP_WEBHOOK_ENABLED,
-    webhookTarget: process.env.SIGNUP_WEBHOOK_ENABLED ? requireParam("SIGNUP_WEBHOOK_TARGET") : ""
+    webhookTarget: process.env.SIGNUP_WEBHOOK_ENABLED ? requireParam("SIGNUP_WEBHOOK_TARGET", `SIGNUP_WEBHOOK_ENABLED was ${process.env.SIGNUP_WEBHOOK_ENABLED}`) : ""
   };
 }
 
 function getSalesforceParams() {
   return {
     salesforceEnabled: !!process.env.SIGNUP_SALESFORCE_ENABLED,
-    salesforceDomain: process.env.SIGNUP_SALESFORCE_ENABLED ? requireParam("SIGNUP_SALESFORCE_DOMAIN") : "",
-    salesforceAPIToken: process.env.SIGNUP_SALESFORCE_ENABLED ? requireParam("SIGNUP_SALESFORCE_API_TOKEN") : ""
+    salesforceDomain: process.env.SIGNUP_SALESFORCE_ENABLED ? requireParam("SIGNUP_SALESFORCE_DOMAIN", `SIGNUP_SALESFORCE_ENABLED was ${process.env.SIGNUP_SALESFORCE_ENABLED}`) : "",
+    salesforceAPIToken: process.env.SIGNUP_SALESFORCE_ENABLED ? requireParam("SIGNUP_SALESFORCE_API_TOKEN", `SIGNUP_SALESFORCE_ENABLED  was ${process.env.SIGNUP_SALESFORCE_ENABLED}`) : ""
   };
 }
 
 function getPipedriveParams() {
   return {
     pipedriveEnabled: !!process.env.SIGNUP_PIPEDRIVE_ENABLED,
-    pipedriveAPIToken: process.env.SIGNUP_PIPEDRIVE_ENABLED ? requireParam("SIGNUP_PIPEDRIVE_API_TOKEN") : ""
+    pipedriveAPIToken: process.env.SIGNUP_PIPEDRIVE_ENABLED ? requireParam("SIGNUP_PIPEDRIVE_API_TOKEN", `SIGNUP_PIPEDRIVE_ENABLED was ${process.env.SIGNUP_PIPEDRIVE_ENABLED}`)  : ""
   };
 }
