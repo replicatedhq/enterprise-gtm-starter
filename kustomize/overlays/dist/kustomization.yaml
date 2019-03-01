@@ -4,6 +4,7 @@ bases:
 resources:
   - ./namespace.yaml
   - ./secret-backend.yaml
+  - ./service-frontend.yaml
 patches:
   - ./deployment-frontend.yaml
   - ./deployment-backend.yaml

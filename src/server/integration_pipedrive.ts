@@ -9,27 +9,31 @@ export class PipedriveClient {
   constructor(
     private readonly params: Params,
   ) {
-    this.pipedrive = this.params && new Pipedrive.Client(
+    this.pipedrive = this.params && this.params.pipedriveEnabled && new Pipedrive.Client(
       this.params.pipedriveAPIToken,
       {strictMode: true},
     );
   }
 
   async createPipedriveDeal(name: any, org: any, email: any): Promise<void> {
-    logger.info({msg: "creating deal in pipedrive", org});
+    if (!this.pipedrive) {
+      throw new Error("Pipedrive integration not enabled, client was not initialized")
+    }
+
+    logger.info({msg: "creating deal in pipedrive", name, org, email});
 
     const orgId = await this.getOrCreateOrg(org);
     const personId = await this.getOrCreatePerson(orgId, name, email);
     const dealId = await this.getOrCreateDeal(orgId, personId, org);
 
-    const content = `User ${name} (${email}) at ${org} downloaded a trial license on ${moment()}`;
+    const noteContent = `User ${name} (${email}) at ${org} downloaded a trial license on ${moment()}`;
 
     await new Promise<any[]>((resolve, reject) => {
       this.pipedrive.Notes.add({
         deal_id: dealId,
         org_id: orgId,
         person_id: personId,
-        content,
+        content: noteContent,
       }, (err, data) => {
         if (err) {
           reject(err);

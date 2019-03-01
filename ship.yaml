@@ -139,8 +139,23 @@ config:
           type: text
           required: false
           when: '{{repl ConfigOptionEquals "salesforce_enabled" "1"}}'
-
-
+    - name: cluster_info
+      title: Cluster Info
+      items:
+        - name: namespace
+          title: Kubernetes Namespace (cannot be changed)
+          type: text
+          readonly: true
+          value: gotomarket
+        - name: service_type
+          title: Service Type (this can be changed later)
+          type: select_one
+          default: LoadBalancer
+          items:
+            - name: LoadBalancer
+              title: LoadBalancer
+            - name: ClusterIP
+              title: ClusterIP
 
 lifecycle:
   v1:
