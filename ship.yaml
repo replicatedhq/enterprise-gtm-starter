@@ -3,7 +3,7 @@ assets:
     - github:
         proxy: false
         repo: replicatedhq/enterprise-gtm-starter
-        ref: master
+        ref: v1.0.0
         path: /kustomize/dist/
         strip_path: true
         dest: base

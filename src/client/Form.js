@@ -45,7 +45,7 @@ class Form extends Component {
 
       this.setState({
         error: true,
-        errorMessage: body.error.message,
+        errorMessage: body.error.message || "Something is not working right, please try again in a few minutes.",
         loading: false,
       });
       setTimeout(() => {

@@ -64,7 +64,7 @@ export class Signup {
     return `${name} at ${org} (${email})`;
   }
 
-  private async fireIntegrations(name: any, org: any, email: any, customer) {
+  private async fireIntegrations(name: any, org: any, email: any, customer): Promise<void> {
     if (this.params.webhookEnabled) {
       await this.deliverWebhook(name, org, email, customer);
     }
@@ -79,8 +79,8 @@ export class Signup {
     }
   }
 
-  private async deliverWebhook(name: any, org: any, email: any, customer) {
-    logger.info({msg: "firing webhook"});
+  private async deliverWebhook(name: any, org: any, email: any, customer): Promise<void> {
+    logger.info({msg: "firing webhook", target: this.params.webhookTarget});
     const opts = {
       headers: {
         "content-type": "application/json",
