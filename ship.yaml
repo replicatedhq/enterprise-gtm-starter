@@ -107,7 +107,7 @@ config:
             {
               "email": "user@somebigbank.com",
               "name": "User McUserson",
-              "organization": "Some Big Bank, LLC",
+              "org": "Some Big Bank, LLC",
               "replicated_customer_id": "abc31ef91828e9d82b10934ffb4280ebd8f0abc"
             }
     - name: crm
