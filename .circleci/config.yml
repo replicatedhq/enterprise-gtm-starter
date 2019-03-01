@@ -18,8 +18,8 @@ jobs:
             - npm-deps-
       - run: npm install
       - run: npm run tslint
-      - run: npm run test-fe
       - run: npm run test-coverage
+      - run: npm run test-fe
       # todo store test results/coverage
       - save_cache:
           paths: node_modules
