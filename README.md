@@ -1,7 +1,7 @@
 Enterprise GTM Starter
 ====================
 
-<a href="https://replicated.com/watch/create/init?upstream=github.com%2Freplicatedhq%2Fenterprise-gtm-starter"><img height="30" src="https://www.replicated.com/images/ship/oss/dws-green.svg" alt="Deploy"></a><br>
+<a target="_blank" href="https://replicated.com/watch/create/init?upstream=github.com%2Freplicatedhq%2Fenterprise-gtm-starter"><img height="30" src="https://www.replicated.com/images/ship/oss/dws-green.svg" alt="Deploy"></a><br>
 
 Example project showcasing how to use Replicated vendor APIs to build a go-to-market portal to allow end customers to self-service signups and license downloads.
 
