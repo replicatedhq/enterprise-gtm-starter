@@ -42,6 +42,18 @@ spec:
     app: backend
   type: ClusterIP
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: gotomarket
+spec:
+  ports:
+  - port: 3000
+  selector:
+    app: frontend
+  type: '{{repl ConfigOption "service_type"}}'
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
