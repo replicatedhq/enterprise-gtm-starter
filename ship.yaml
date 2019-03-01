@@ -178,7 +178,7 @@ lifecycle:
           - Deliver webhooks to update any configured CRM systems with the user's provided info
           - Display configured installation instructions to the user
 
-          ![ops](https://raw.githubusercontent.com/replicatedhq/enterprise-gtm-starter/master/doc/operation.png)
+          [![ops](https://raw.githubusercontent.com/replicatedhq/enterprise-gtm-starter/master/doc/operation.png)](https://github.com/replicatedhq/enterprise-gtm-starter/blob/master/doc/operation.png)
 
     - message:
         id: configuring
@@ -187,7 +187,7 @@ lifecycle:
 
           To get started, you'll need to supply some information about your Replicated App as well as some custom messaging and copy for the portal.
 
-          ![setup](https://raw.githubusercontent.com/replicatedhq/enterprise-gtm-starter/master/doc/setup.png)
+          [![setup](https://raw.githubusercontent.com/replicatedhq/enterprise-gtm-starter/master/doc/setup.png)](https://github.com/replicatedhq/enterprise-gtm-starter/blob/master/doc/setup.png)
 
           Then you can deploy the portal to your infrastructure.
 
