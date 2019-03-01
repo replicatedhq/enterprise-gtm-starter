@@ -159,15 +159,53 @@ config:
 
 lifecycle:
   v1:
-    - config: {}
+    - message:
+        id: intro
+        contents: |
+          ### Go to Market Installer
+
+          This tool will walk you through setting up the go-to-market portal. The end result will be Kubernetes manifests that you can use to deploy the Go To Market portal to your infrastructure.
+
+    - message:
+        id: operation
+        contents: |
+          ### Operation
+
+          When a new customer requests a trial, this tool will
+
+          - Create a new customer record in Replicated
+          - Download the license from Replicated and deliver it to the user via browser download
+          - Deliver webhooks to update any configured CRM systems with the user's provided info
+          - Display configured installation instructions to the user
+
+          ![ops](https://raw.githubusercontent.com/replicatedhq/enterprise-gtm-starter/master/doc/operation.png)
+
+    - message:
+        id: configuring
+        contents: |
+          ### Configuring
+
+          To get started, you'll need to supply some information about your Replicated App as well as some custom messaging and copy for the portal.
+
+          ![setup](https://raw.githubusercontent.com/replicatedhq/enterprise-gtm-starter/master/doc/setup.png)
+
+          Then you can deploy the portal to your infrastructure.
+
+    - config:
+        invalidates: [render]
     - render:
+        requires: [config]
         root: "."
-    - kustomizeIntro: {}
+    - kustomizeIntro:
+        requires: [render]
     - kustomize:
+        requires: [render]
         base: base
         overlay: overlays/ship
         dest: rendered.yaml
     - message:
+        requires: [kustomize]
+        id: outro
         contents: |
           ### 👏 You're all set
 
