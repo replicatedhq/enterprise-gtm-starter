@@ -38,7 +38,7 @@ Ship will walk you through setting up the required fields for running the projec
 Customizing
 ---------------------
 
-As noted in [deploying](#deploying), there are a number of options that can be used to customized the messaging and operation of the go to market portal. However, while the project aims to present some basic customizations, it is also designed to be a minimal POC. Therefore, rich customization like CSS, extra fields, etc are not supported. Instead, it's recommended that you import or copy the relevant pieces of this project into your own application.
+As noted in [deploying](#deploying), there are a number of options that can be used to customize the messaging and operation of the go to market portal. However, while the project aims to present some basic customizations, it is also designed to be a minimal POC. Therefore, rich customization like CSS, extra fields, etc are not supported. Instead, it's recommended that you import or copy the relevant pieces of this project into your own application.
 
 Developing
 ------------
