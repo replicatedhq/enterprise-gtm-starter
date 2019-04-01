@@ -7,7 +7,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: replicated/gotomarket:1.0.0
+          image: replicated/gotomarket:1.0.1
           command:
             - node
             - /app/tsc-out/server/index.js

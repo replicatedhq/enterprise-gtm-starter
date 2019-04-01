@@ -75,7 +75,7 @@ spec:
         envFrom:
         - secretRef:
             name: backend
-        image: replicated/gotomarket:1.0.0
+        image: replicated/gotomarket:1.0.1
         name: backend
 ---
 apiVersion: apps/v1
@@ -97,5 +97,5 @@ spec:
         - nginx
         - -g
         - daemon off;
-        image: replicated/gotomarket:1.0.0
+        image: replicated/gotomarket:1.0.1
         name: frontend
