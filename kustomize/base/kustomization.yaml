@@ -1,4 +1,4 @@
 resources:
-  - ./deployment-backend.yaml
+  - deployment.yaml
   - ./deployment-frontend.yaml
   - ./clusterip.yaml

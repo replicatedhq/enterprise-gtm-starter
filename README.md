@@ -18,25 +18,28 @@ During operation, the project runs a web app and a backend API to generate and d
 Deploying
 ---------------------
 
-The Enterprise GTM starter can be configured and deployed directly to your existing Kubernetes cluster. The recommended installation method is to use [ship](https://github.com/replicatedhq/ship).
+The Enterprise GTM starter can be configured and deployed directly to your existing Kubernetes cluster. The recommended installation method is to use [kots](https://github.com/replicatedhq/ship).
 
 ```
-brew install ship
-ship init github.com/replicatedhq/enterprise-gtm-starter
+curl https://kots.io/install
+kubectl kots install enterprise-gtm-starter
 ```
 
-Ship will walk you through setting up the required fields for running the project in your infrastructure. These include
+You'll need to procure a community license for the project, one can be found in this repo.
+
+The KOTS configuration screen will allow you to configure:
 
 - Replicated API token and Application details
 - Trial duration and expiration behavior
 - Custom copy and whitelabeling
 
-![setup](./doc/setup.png)
-
 Customizing
 ---------------------
 
-As noted in [deploying](#deploying), there are a number of options that can be used to customize the messaging and operation of the go to market portal. However, while the project aims to present some basic customizations, it is also designed to be a minimal POC. Therefore, rich customization like CSS, extra fields, etc are not supported. Instead, it's recommended that you import or copy the relevant pieces of this project into your own application.
+As noted in [deploying](#deploying), there are a number of options that can be used to customize the messaging and operation of the go to market portal.
+However, while the project aims to present some basic customizations, it is also designed to be a minimal POC.
+Therefore, rich customization like CSS, extra fields, etc are not supported.
+Instead, it's recommended that you import or copy the relevant pieces of this project into your own application.
 
 Developing
 ------------

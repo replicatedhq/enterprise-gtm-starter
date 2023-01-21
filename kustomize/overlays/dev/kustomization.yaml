@@ -2,7 +2,7 @@ bases:
   - ../../base
 
 patches:
-  - ./deployment-backend.yaml
+  - ./deployment.yaml
 
 resources:
   - ./loadbalancer-frontend.yaml

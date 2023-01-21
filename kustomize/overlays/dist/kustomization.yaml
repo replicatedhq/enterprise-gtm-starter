@@ -7,4 +7,4 @@ resources:
   - ./service-frontend.yaml
 patches:
   - ./deployment-frontend.yaml
-  - ./deployment-backend.yaml
+  - ./deployment.yaml
