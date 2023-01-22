@@ -44,43 +44,47 @@ Instead, it's recommended that you import or copy the relevant pieces of this pr
 Developing
 ------------
 
-- Create a kustomize overlay with your username:
+### Environment
 
-```bash
-mkdir kustomize/overlays/dev_${USER}
+As usual, set
+
+```
+REPLICATED_API_TOKEN
+REPLICATED_APP
 ```
 
-```bash
-echo '
-bases:
-  - ../dev
+You can also set
 
-patches:
-  - ./deployment.yaml
- ' > kustomize/overlays/dev_${USER}/kustomization.yaml
+
 ```
-- create the placeholder patch:
-```bash
-echo 'apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: backend
-spec:
-  template:
-    spec:
-      containers:
-        - name: backend
-          env:
-            - name: REPLICATED_API_TOKEN
-              value: edit me
-            - name: REPLICATED_APP
-              value: edit me
-            - name: REPLICATED_CHANNEL_ID
-              value: edit me
-  ' > kustomize/overlays/dev_${USER}/deployment.yaml
+GIN_ADDRESS # defaults to :8800
+PROXY_FRONTEND # default to FE server @ localhost:3000
+REPLICATED_API_ORIGIN # defaults to https://api.replicated.com/vendor
+REPLICATED_CHANNEL # defaults to Stable
+LICENSE_DURATION # defaults to 720h, about 1 month
 ```
-- Edit `kustomize/overlays/dev_${USER}/deployment.yaml` with your app ID and API keys from vendor.replicated.com (you can create an API token from the "teams and tokens" page. You can get your channel ID from `replicated channel ls` with the [replicated CLI](https://github.com/replicatedhq/replicated)
-- Get [Tilt](https://github.com/windmilleng/tilt)
-- Get a kubernetes cluster (probably in Docker for Desktop but Minikube/GKE/EKS/etc.. works fine too)
-- run `tilt up` to run the stack and watch for changes
-- navigate to http://localhost:3000
+
+### Running Locally
+
+In one window, run
+
+```
+cd frontend
+npm install
+npm run start
+```
+
+In another, from the root of the repo
+
+```
+make serve
+```
+
+### Docker
+
+You can also build a single docker image to run the frontend and backend, but this will be a slower iteration loop.
+
+```
+docker build . -t enterprise-gtm-starter && docker run --rm -p 8800:8800 -it -e REPLICATED_API_TOKEN -e REPLICATED_APP enterprise-gtm-starter
+
+```

@@ -4,12 +4,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type ClientConfig struct {
-	Title           string `json:"title"`
-	IntroMarkdown   string `json:"introMarkdown"`
-	InstallMarkdown string `json:"installMarkdown"`
-}
-
 func (h *Handlers) ClientConfig(c *gin.Context) {
 	c.JSON(200, h.ServerConfig.ClientConfig)
 }

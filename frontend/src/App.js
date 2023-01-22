@@ -1,6 +1,15 @@
 import { useEffect, useState } from "react";
-import logo from "./logo.svg";
 import "./App.css";
+import Form from "./Form";
+
+const Loading = () => (
+  <div
+    className="App"
+    style={{ padding: "100px", fontWeight: "lighter", fontSize: "96px" }}
+  >
+    Loading...
+  </div>
+);
 
 function App() {
   const [config, setConfig] = useState("");
@@ -22,21 +31,15 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <p>{config}</p>
-      </header>
+      {!config && Loading()}
+      <div>
+        <div>
+          <h1>{config.title}</h1>
+          <section className="container">
+            {Form(config.introMarkdown, config.installMarkdown)}
+          </section>
+        </div>
+      </div>
     </div>
   );
 }

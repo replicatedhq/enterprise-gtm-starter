@@ -6,7 +6,7 @@
     text-align: left;
     padding-right: 0;
   }
-  
+
   .Form {
     width: 100%;
     margin-top: 20px;
@@ -17,13 +17,17 @@
 }
 
 /* < 768px */
-@media only screen and (max-width: 48em) { }
+@media only screen and (max-width: 48em) {
+}
 
 /* < 960 */
-@media only screen and (max-width: 60em) { }
+@media only screen and (max-width: 60em) {
+}
 
 /* < 1024px */
-@media only screen and (max-width: 64em) { }
+@media only screen and (max-width: 64em) {
+}
 
 /* ≥ 1280px */
-@media only screen and (max-width: 80em) { }
+@media only screen and (max-width: 80em) {
+}

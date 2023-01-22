@@ -1,6 +1,2 @@
-node_modules
-coverage
-.nyc_output
-build
-kustomize/overlays/dev_*
-tmp
+.idea
+frontend/node_modules

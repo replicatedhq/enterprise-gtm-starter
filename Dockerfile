@@ -5,10 +5,8 @@ COPY frontend/package-lock.json /app
 RUN npm install
 COPY frontend /app
 RUN npm run build
-ENTRYPOINT "/bin/sh"
 
 
-# syntax=docker/dockerfile:1.4
 FROM cgr.dev/chainguard/go:latest as build
 
 WORKDIR /work
@@ -19,10 +17,12 @@ RUN go mod download
 COPY ./cmd /work/cmd
 COPY ./pkg /work/pkg
 
-RUN go build -o enterprise-gtm-starter ./cmd/enterprise-gtm-starter
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
+    go build -o enterprise-gtm-starter ./cmd/enterprise-gtm-starter
 
 FROM cgr.dev/chainguard/static:latest
 
 COPY --from=build /work/enterprise-gtm-starter /enterprise-gtm-starter
 COPY --from=frontend /app/build /frontend
+ENV STATIC_DIR="/frontend"
 CMD ["/enterprise-gtm-starter"]
