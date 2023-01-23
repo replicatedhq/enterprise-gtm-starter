@@ -36,7 +36,7 @@ function App() {
         <div>
           <h1>{config.title}</h1>
           <section className="container">
-            {Form(config.introMarkdown, config.installMarkdown)}
+            {Form(config.title, config.introMarkdown, config.installMarkdown)}
           </section>
         </div>
       </div>

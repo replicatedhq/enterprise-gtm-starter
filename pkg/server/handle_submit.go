@@ -1,10 +1,9 @@
 package server
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"net/http"
+	"github.com/pkg/errors"
 )
 
 type SubmitRequest struct {
@@ -21,8 +20,24 @@ func (h *Handlers) Submit(c *gin.Context) {
 		return
 	}
 
+	licenseBytes, err := h.handleSubmit(request)
+	if err != nil {
+		c.AbortWithError(500, err)
+		return
+	}
+
+	c.JSON(200, map[string]string{
+		"license": string(licenseBytes),
+	})
+}
+
+func (h *Handlers) handleSubmit(request SubmitRequest) ([]byte, error) {
+
 	customerName := fmt.Sprintf("%s at %s (%s)", request.Name, request.Org, request.Email)
 
+	// this will create a dev license until
+	// 1. https://github.com/replicatedhq/replicated/pull/224 is merged
+	// 2. the library here is updated
 	customer, err := h.Client.CreateCustomer(
 		customerName,
 		h.App.ID,
@@ -33,16 +48,13 @@ func (h *Handlers) Submit(c *gin.Context) {
 		h.EnableSnapshots,
 	)
 	if err != nil {
-		c.AbortWithError(500, err)
-		return
+		return nil, errors.Wrap(err, "create customer")
 	}
 
-	resp, err := json.Marshal(customer)
+	licenseBytes, err := h.Client.DownloadLicense(h.App.ID, customer.ID)
 	if err != nil {
-		c.AbortWithError(500, err)
-		return
+		return nil, errors.Wrap(err, "download license")
 	}
 
-	c.Writer.WriteHeader(http.StatusOK)
-	c.Writer.Write(resp)
+	return licenseBytes, nil
 }

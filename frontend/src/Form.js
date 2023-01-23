@@ -1,7 +1,14 @@
 import React, { useState } from "react";
 import ReactMarkdown from "react-markdown";
+import FileSaver from "file-saver";
 
-function Form(introMarkdown, installMarkdown) {
+const browserDownload = (filename, fileContents) => {
+  const blob = new Blob([fileContents], {type: "text/plain;charset=utf-8"});
+  FileSaver.saveAs(blob, filename);
+
+}
+
+function Form(title, introMarkdown, installMarkdown) {
   const [name, setName] = useState("");
   const [org, setOrg] = useState("");
   const [email, setEmail] = useState("");
@@ -11,8 +18,9 @@ function Form(introMarkdown, installMarkdown) {
 
   const handleClick = async () => {
     setButtonText("Working...");
+    let response;
     try {
-      await fetch("/api/submit", {
+      response = await fetch("/api/submit", {
         method: "POST",
         headers: {
           "content-type": "application/json",
@@ -24,13 +32,19 @@ function Form(introMarkdown, installMarkdown) {
         }),
       });
       setButtonText("Success");
-      setTimeout(() => {
-        setSubmitted(true);
-      }, 1000);
     } catch (e) {
       setError(e);
       setButtonText("Failed");
+      return;
     }
+
+    const body = await response.json();
+    const downloadFileName = title.toLowerCase().replace(/[\W_]+/g,"-");
+    await browserDownload(`${downloadFileName}.yaml`, body.license);
+
+    setTimeout(() => {
+      setSubmitted(true);
+    }, 1000);
   };
 
   if (submitted) {
