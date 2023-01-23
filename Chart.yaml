@@ -1,0 +1,6 @@
+apiVersion: v2
+name: enterprise-gtm-starter
+description: An example application showcasing how to host a self-serve signup portal for end customers of an off-the-shelf application.
+type: application
+version: 0.1.0
+appVersion: "1.16.0"

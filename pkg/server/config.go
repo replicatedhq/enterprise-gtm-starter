@@ -7,16 +7,9 @@ import (
 	"time"
 )
 
-type ClientConfig struct {
-	Title           string `json:"title"`
-	IntroMarkdown   string `json:"introMarkdown"`
-	InstallMarkdown string `json:"installMarkdown"`
-}
-
 // ServerConfig is the environment configuration for the backend process
 // it includes the client config which is served to the frontend on page load
 type ServerConfig struct {
-	ClientConfig
 	GinAddress string `env:"GIN_ADDRESS"`
 
 	StaticDir        string `env:"STATIC_DIR"`
@@ -34,23 +27,26 @@ type ServerConfig struct {
 	EnableGitops    bool
 	EnableAirgap    bool
 	EnableSnapshots bool
+
+	Title           string `json:"title" env:"FORM_TITLE"`
+	IntroMarkdown   string `json:"introMarkdown" env:"FORM_INTRO_MARKDOWN"`
+	InstallMarkdown string `json:"installMarkdown" env:"FORM_INSTALL_MARKDOWN"`
 }
 
 const OneMonth = "720h"
 
-func LoadConfig() (*ServerConfig, error) {
+func DefaultConfig() ServerConfig {
+	return ServerConfig{
+		GinAddress:    ":8800",
+		ProxyFrontend: "http://localhost:3000",
 
-	config := ServerConfig{
-		GinAddress:          ":8800",
-		ProxyFrontend:       "http://localhost:3000",
 		LicenseDuration:     OneMonth,
-		ReplicatedAPIOrigin: "https://api.replicated.com/vendor",
 		ReplicatedChannel:   "Stable",
+		ReplicatedAPIOrigin: "https://api.replicated.com/vendor",
 
-		ClientConfig: ClientConfig{
-			Title:         "Wordpress Enterprise",
-			IntroMarkdown: "Fill out your info to try out WPE!",
-			InstallMarkdown: `
+		Title:         "Wordpress Enterprise",
+		IntroMarkdown: "Fill out your info to try out WPE!",
+		InstallMarkdown: `
 Now run
 
 ` + "```" + `
@@ -61,16 +57,30 @@ kubectl kots install wordpress-enterprise
 To install WPE.
 
 `,
-		},
 	}
+
+}
+
+func LoadConfig() (*ServerConfig, error) {
+
+	config := DefaultConfig()
+
 	if err := env.Set(&config); err != nil {
 		return nil, errors.Wrap(err, "load env config")
 	}
 
+	if err := config.parseConfig(); err != nil {
+		return nil, errors.Wrap(err, "parse config")
+	}
+
+	return &config, nil
+}
+
+func (config ServerConfig) parseConfig() error {
 	if config.ProxyFrontend != "" {
 		parsed, err := url.Parse(config.ProxyFrontend)
 		if err != nil {
-			return nil, errors.Wrap(err, "parse ProxyFrontend URL")
+			return errors.Wrap(err, "parse ProxyFrontend URL")
 		}
 		config.ProxyFrontendURL = parsed
 	}
@@ -78,10 +88,10 @@ To install WPE.
 	if config.LicenseDuration != "" {
 		duration, err := time.ParseDuration(config.LicenseDuration)
 		if err != nil {
-			return nil, errors.Wrap(err, "parse configured license expiration duration")
+			return errors.Wrap(err, "parse configured license expiration duration")
 		}
 		config.LicenseExpirationDuration = duration
 	}
 
-	return &config, nil
+	return nil
 }

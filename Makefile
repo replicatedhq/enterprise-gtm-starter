@@ -20,3 +20,9 @@ check-env:
 .PHONY: serve
 serve: check-env
 	go run ./cmd/enterprise-gtm-starter
+
+.PHONY: helm-release-dev
+helm-release-dev:
+	helm dependency update
+	helm package -d manifests .
+	replicated release create --auto -y
