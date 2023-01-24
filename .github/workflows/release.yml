@@ -1,0 +1,32 @@
+name: App Release
+
+on:
+  push:
+    paths:
+    - 'manifests/**/*'
+    - 'templates/**/*'
+    - Chart.yaml
+    - '.github/workflows/release.yml'
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Get tag name, if specified
+      run: if grep -q "/tags/" <<< "${GITHUB_REF}"; then echo ::set-output name=tag::${GITHUB_REF:10}; fi
+      id: get_tag
+    - name: Get branch name
+      run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      id: get_branch
+    - name: Helm Package / deps
+      run: "helm dependency update && helm package . -d manifests"
+    - name: Create a release on Channel associated with the branch
+      uses: docker://replicated/vendor-cli:latest
+      with:
+        args: release create --auto -y
+      env:
+        REPLICATED_API_TOKEN: ${{ secrets.REPLICATED_API_TOKEN }}
+        REPLICATED_APP: enterprise-gtm-starter
+        GITHUB_BRANCH_NAME: ${{ steps.get_branch.outputs.branch }}
+        GITHUB_TAG_NAME: ${{ steps.get_tag.outputs.tag }}
