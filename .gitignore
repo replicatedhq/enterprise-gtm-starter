@@ -1,4 +1,5 @@
 .idea
 frontend/node_modules
 preflight-config
+manifests/*.tgz
 
