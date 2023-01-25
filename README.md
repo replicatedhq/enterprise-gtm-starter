@@ -82,9 +82,8 @@ make serve
 
 ### Docker
 
-You can also build a single docker image to run the frontend and backend, but this will be a slower iteration loop.
+You can also build a single docker image to run the frontend and backend, but this will be a slower iteration loop
 
 ```
-docker build . -t enterprise-gtm-starter && docker run --rm -p 8800:8800 -it -e REPLICATED_API_TOKEN -e REPLICATED_APP enterprise-gtm-starter
-
+docker build . -t enterprise-gtm-starter && docker run --rm -p 8888:8888 -it -e REPLICATED_API_TOKEN -e REPLICATED_APP enterprise-gtm-starter
 ```

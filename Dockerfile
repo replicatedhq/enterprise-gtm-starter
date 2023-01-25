@@ -8,6 +8,7 @@ RUN npm run build
 
 
 FROM cgr.dev/chainguard/go:latest as build
+ARG ARCH=amd64
 
 WORKDIR /work
 
@@ -17,10 +18,10 @@ RUN go mod download
 COPY ./cmd /work/cmd
 COPY ./pkg /work/pkg
 
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
-    go build -o enterprise-gtm-starter ./cmd/enterprise-gtm-starter \
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=${ARCH} \
+    go build -o enterprise-gtm-starter ./cmd/enterprise-gtm-starter
 
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=${ARCH} \
     go build -o preflight-config ./cmd/preflight-config
 
 FROM cgr.dev/chainguard/static:latest
