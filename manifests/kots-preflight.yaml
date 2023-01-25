@@ -7,8 +7,8 @@ spec:
     - clusterVersion:
         outcomes:
           - fail:
-              when: "< 1.24.0"
-              message: The application requires Kubernetes 1.24.0 or later, and recommends 1.25.0 or later.
+              when: "< 1.22.0"
+              message: The application requires Kubernetes 1.22.0 or later, and recommends 1.25.0 or later.
               uri: https://www.kubernetes.io
           - warn:
               when: "< 1.25.0"
