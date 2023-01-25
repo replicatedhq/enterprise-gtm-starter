@@ -3,7 +3,27 @@ kind: Preflight
 metadata:
   name: preflight-checks
 spec:
+  collectors:
+    - runPod:
+        name: check-config
+        namespace: repl{{ Namespace }}
+        podSpec:
+          containers:
+            - name: check-config
+              image: ghcr.io/replicatedhq/enterprise-gtm-starter:{{repl ConfigOption "git_version" }}
+              command: [/preflight-config]
   analyzers:
+    - textAnalyze:
+        checkName: API Token
+        fileName: check-config
+        regex: '401'
+        outcomes:
+          - pass:
+              when: "false"
+              message: "API Token Valid"
+          - fail:
+              when: "true"
+              message: "API Token invalid"
     - clusterVersion:
         outcomes:
           - fail:

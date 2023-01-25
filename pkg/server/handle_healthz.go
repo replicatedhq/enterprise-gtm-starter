@@ -2,10 +2,12 @@ package server
 
 import (
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
 func (h *Handlers) Healthz(c *gin.Context) {
-	c.Writer.WriteHeader(http.StatusOK)
-	c.Writer.Write([]byte("ok"))
+	c.JSON(200, map[string]string{
+		"status":  "ready",
+		"version": h.ServerConfig.GitVersion,
+		"app":     h.ServerConfig.ReplicatedApp,
+	})
 }

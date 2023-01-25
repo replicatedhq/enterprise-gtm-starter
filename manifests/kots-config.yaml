@@ -117,8 +117,8 @@ spec:
       title: Advanced Settings
       description: Configure advanced / developer settings
       items:
-        - name: customize_api_origin
-          title: Change Replicated API origin
+        - name: advanced_settings
+          title: Advanced Settings
           type: bool
           default: "0"
         - name: replicated_api_origin
@@ -128,4 +128,8 @@ spec:
             will be sent.
           type: text
           default: https://api.replicated.com/vendor
-          when: repl{{ ConfigOptionEquals "customize_api_origin" "1" }}
+          when: repl{{ ConfigOptionEquals "advanced_settings" "1" }}
+        - name: git_version
+          hidden: true
+          # will be substituted during github actions build
+          value: GITHUB_SHA

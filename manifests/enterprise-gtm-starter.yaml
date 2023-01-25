@@ -11,9 +11,10 @@ spec:
   useHelmInstall: true
   values:
     image:
-      tag: IMAGE_TAG
+      tag: repl{{ ConfigOption "git_version" }}
     isKurl: repl{{ IsKurl }}
     app:
+      gitVersion: repl{{ ConfigOption "git_version" }}
       replicated:
         apiToken: repl{{ ConfigOption "replicated_api_token" }}
         app: repl{{ ConfigOption "replicated_app" }}
@@ -33,4 +34,4 @@ spec:
         enableAirgap: '{{repl if ConfigOptionEquals "enableGitops" "1" }}true{{repl else }}false{{repl end }}'
   builder:
     image:
-      tag: IMAGE_TAG
+      tag: repl{{ ConfigOption "git_version" }}

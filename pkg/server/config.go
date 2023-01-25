@@ -11,6 +11,7 @@ import (
 // it includes the client config which is served to the frontend on page load
 type ServerConfig struct {
 	GinAddress string `env:"GIN_ADDRESS"`
+	GitVersion string `env:"GIT_VERSION"`
 
 	// StaticDir defines where frontend assets should be served from
 	// This is designed for production builds where the Gin server serves both the

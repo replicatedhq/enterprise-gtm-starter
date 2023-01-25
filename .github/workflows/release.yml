@@ -72,7 +72,7 @@ jobs:
     - name: Helm Package / deps
       run: "helm dependency update && helm package . -d manifests"
     - name: "Replace image tag in helm chart declaration"
-      run: sed -i.bak "s/IMAGE_TAG/${GITHUB_SHA::7}/g" ./manifests/enterprise-gtm-starter.yaml
+      run: sed -i.bak "s/GITHUB_SHA/${GITHUB_SHA::7}/g" ./manifests/kots-config.yaml
     - name: Create a release on Channel associated with the branch
       uses: docker://replicated/vendor-cli:latest
       with:
