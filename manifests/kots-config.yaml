@@ -33,7 +33,6 @@ spec:
             The title to display on the landing page. This should probably be something like
             "<Your App Name>" or "Sign up for a free trial of <Your App Name>"
           type: text
-          required: true
           default: Sign up for repl{{ ConfigOption "replicated_app" }}
         - name: introMarkdown
           title: Intro Markdown
@@ -42,7 +41,6 @@ spec:
             Consider including instructions for your user, or what they'll get
             when they sign up for a trial.
           type: textarea
-          required: true
           default: |
             Fill out the form fields to sign up for a free trial.
             You get 
@@ -54,7 +52,6 @@ spec:
           help_text: >
             The markdown to display
           type: textarea
-          required: true
           default: |
             Now that you have a license, run the following to install it onto a VM:
               

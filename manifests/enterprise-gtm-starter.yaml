@@ -20,8 +20,8 @@ spec:
         apiOrigin: repl{{ ConfigOption "replicated_api_origin" }}
       form:
         title: repl{{ ConfigOption "title" }}
-        introMarkdown: repl{{ ConfigOption "introMarkdown" }}
-        installMarkdown: repl{{ ConfigOption "installMarkdown" }}
+#        introMarkdown: repl{{ ConfigOption "introMarkdown" }}
+#        installMarkdown: repl{{ ConfigOption "installMarkdown" }}
       license:
         channel: repl{{ ConfigOption "channel" }}
         expiresIn: repl{{ ConfigOption "expiresIn" }}
@@ -29,3 +29,4 @@ spec:
         enableGitops: '{{repl if ConfigOptionEquals "enableGitops" "1" }}true{{repl end }}'
         enableSnapshots: '{{repl if ConfigOptionEquals "enableGitops" "1" }}true{{repl end }}'
         enableAirgap: '{{repl if ConfigOptionEquals "enableGitops" "1" }}true{{repl end }}'
+  builder: {}
