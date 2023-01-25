@@ -28,7 +28,7 @@ spec:
         channel: repl{{ ConfigOption "channel" }}
         expiresIn: repl{{ ConfigOption "expiresIn" }}
         type: repl{{ ConfigOption "licenseType" }}
-        enableGitops: '{{repl if ConfigOptionEquals "enableGitops" "1" }}true{{repl end }}'
-        enableSnapshots: '{{repl if ConfigOptionEquals "enableGitops" "1" }}true{{repl end }}'
-        enableAirgap: '{{repl if ConfigOptionEquals "enableGitops" "1" }}true{{repl end }}'
+        enableGitops: '{{repl if ConfigOptionEquals "enableGitops" "1" }}true{{repl else }}false{{repl end }}'
+        enableSnapshots: '{{repl if ConfigOptionEquals "enableGitops" "1" }}true{{repl else }}false{{repl end }}'
+        enableAirgap: '{{repl if ConfigOptionEquals "enableGitops" "1" }}true{{repl else }}false{{repl end }}'
   builder: {}
