@@ -45,9 +45,11 @@ function Form(title, introMarkdown, installMarkdown) {
     const downloadFileName = title.toLowerCase().replace(/[\W_]+/g,"-");
     await browserDownload(`${downloadFileName}.yaml`, body.license);
 
+    setButtonText("Redirecting...");
+
     setTimeout(() => {
       setSubmitted(true);
-    }, 1000);
+    }, 2000);
   };
 
   if (submitted) {
