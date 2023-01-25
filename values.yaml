@@ -5,9 +5,56 @@ image:
   pullPolicy: IfNotPresent
   tag: "latest"
 
+app:
+  replicated:
+    # an api token for a replicated user or service account
+    apiToken: ""
+    # an app slug or ID for which licenses should be provisioned
+    app: ""
+    # optional - can be used to change the upstream API endpoint for generating licenses
+    apiOrigin: https://api.replicated.com/vendor
+
+  form:
+    # controls the title on the landing page
+    title: "Your App Name Here"
+    # controls the left panel on the landing page
+    introMarkdown: |
+      Fill out the form below to request a trial license for <Your App Name Here>.
+    # controls the installation instructions that are shown post-download
+    # change this to reflect your app and channel. You can use `replicated channel inspect`
+    # from the vendor CLI to get your version of these instructions
+    installMarkdown: |
+      Now that you have a license, run the following to install it onto a VM:
+      
+          curl https://k8s.kurl.sh/enterprise-gtm-starter | sudo bash
+      
+      If you already have a cluster, you can run
+      
+          curl https://kots.io/install | bash
+          kubectl kots install enterprise-gtm-starter
+
+
+  license:
+    # to which channel should generated licenses have access
+    channel: ""
+    # how long should the license be valid? default 720h is about 1 month
+    # requires a valid go duration
+    expiresIn: 720h
+    # options are "community", "trial", or "paid". "dev" is technically valid but should not be used
+    type: trial
+
+    # enable various features on the license
+    enableGitops: false
+    enableSnapshots: false
+    enableAirgap: false
+
+
+
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
+
+
 
 service:
   type: ClusterIP

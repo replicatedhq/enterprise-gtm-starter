@@ -12,25 +12,34 @@ import (
 type ServerConfig struct {
 	GinAddress string `env:"GIN_ADDRESS"`
 
-	StaticDir        string `env:"STATIC_DIR"`
+	// StaticDir defines where frontend assets should be served from
+	// This is designed for production builds where the Gin server serves both the
+	// frontend routes from /* and the api routes from /api/*
+	StaticDir string `env:"STATIC_DIR"`
+
+	// ProxyFrontend specifies a local URL to use for frontend assets
+	// this should only be used when developing locally
 	ProxyFrontend    string `env:"PROXY_FRONTEND"`
 	ProxyFrontendURL *url.URL
 
-	ReplicatedAPIOrigin string `env:"REPLICATED_API_ORIGIN"`
-	ReplicatedAPIKey    string `env:"REPLICATED_API_TOKEN"`
-	ReplicatedApp       string `env:"REPLICATED_APP"`
-	ReplicatedChannel   string `env:"REPLICATED_CHANNEL"`
-
-	LicenseDuration           string `env:"LICENSE_DURATION"`
-	LicenseExpirationDuration time.Duration
-
-	EnableGitops    bool
-	EnableAirgap    bool
-	EnableSnapshots bool
-
+	// frontend / UI settings
 	Title           string `json:"title" env:"FORM_TITLE"`
 	IntroMarkdown   string `json:"introMarkdown" env:"FORM_INTRO_MARKDOWN"`
 	InstallMarkdown string `json:"installMarkdown" env:"FORM_INSTALL_MARKDOWN"`
+
+	// License creation options
+	ReplicatedAPIOrigin string `env:"REPLICATED_API_ORIGIN"`
+	ReplicatedAPIKey    string `env:"REPLICATED_API_TOKEN"`
+	ReplicatedApp       string `env:"REPLICATED_APP"`
+
+	LicenseDuration           string `env:"LICENSE_EXPIRE_DURATION"`
+	LicenseExpirationDuration time.Duration
+
+	ReplicatedChannel string `env:"LICENSE_CHANNEL"`
+	EnableGitops      bool   `env:"LICENSE_ENABLE_GITOPS"`
+	EnableAirgap      bool   `env:"LICENSE_ENABLE_AIRGAP"`
+	EnableSnapshots   bool   `env:"LICENSE_ENABLE_SNAPSHOTS"`
+	LicenseType       bool   `env:"LICENSE_TYPE"`
 }
 
 const OneMonth = "720h"

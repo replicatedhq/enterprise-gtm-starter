@@ -32,7 +32,7 @@ func NewHandlers(config ServerConfig) (*Handlers, error) {
 		return nil, errors.Wrap(err, "get channel")
 	}
 
-	foundChannel := []types.Channel{}
+	var foundChannel []types.Channel
 	for _, channel := range channels {
 		if channel.ID == config.ReplicatedChannel || channel.Name == config.ReplicatedChannel {
 			foundChannel = append(foundChannel, channel)
