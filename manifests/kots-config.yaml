@@ -131,5 +131,6 @@ spec:
           when: repl{{ ConfigOptionEquals "advanced_settings" "1" }}
         - name: git_version
           hidden: true
+          type: text
           # will be substituted during github actions build
           value: GITHUB_SHA
