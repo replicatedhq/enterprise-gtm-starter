@@ -7,6 +7,7 @@ spec:
     name: enterprise-gtm-starter
     chartVersion: 0.1.0
   helmVersion: v3
+
   useHelmInstall: true
   values:
     image:
@@ -19,15 +20,15 @@ spec:
         apiOrigin: repl{{ ConfigOption "replicated_api_origin" }}
       form:
         title: repl{{ ConfigOption "title" }}
-        introMarkdown: repl{{ ConfigOption "introMarkdown" }}
-        installMarkdown: repl{{ ConfigOption "installMarkdown" }}
+#        introMarkdown: repl{{ ConfigOption "introMarkdown" }}
+#        installMarkdown: repl{{ ConfigOption "installMarkdown" }}
       license:
         channel: repl{{ ConfigOption "channel" }}
         expiresIn: repl{{ ConfigOption "expiresIn" }}
         type: repl{{ ConfigOption "licenseType" }}
-        enableGitops: repl{{ if ConfigOptionEquals "enableGitops" "1" }}truerepl{{ end }}
-        enableSnapshots: repl{{ if ConfigOptionEquals "enableGitops" "1" }}truerepl{{ end }}
-        enableAirgap: repl{{ if ConfigOptionEquals "enableGitops" "1" }}truerepl{{ end }}
+        enableGitops: '{{repl if ConfigOptionEquals "enableGitops" "1" }}true{{repl end }}'
+        enableSnapshots: '{{repl if ConfigOptionEquals "enableGitops" "1" }}true{{repl end }}'
+        enableAirgap: '{{repl if ConfigOptionEquals "enableGitops" "1" }}true{{repl end }}'
   builder:
     image:
       tag: kots
