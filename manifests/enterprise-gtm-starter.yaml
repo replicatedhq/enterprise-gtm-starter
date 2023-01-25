@@ -11,7 +11,7 @@ spec:
   useHelmInstall: true
   values:
     image:
-      tag: kots # temporary in dev, need to figure out tagging w/ GH releases...soon
+      tag: dfksjfl
     isKurl: repl{{ IsKurl }}
     app:
       replicated:
@@ -31,4 +31,6 @@ spec:
         enableGitops: '{{repl if ConfigOptionEquals "enableGitops" "1" }}true{{repl else }}false{{repl end }}'
         enableSnapshots: '{{repl if ConfigOptionEquals "enableGitops" "1" }}true{{repl else }}false{{repl end }}'
         enableAirgap: '{{repl if ConfigOptionEquals "enableGitops" "1" }}true{{repl else }}false{{repl end }}'
-  builder: {}
+  builder:
+    image:
+      tag: dfksjfl
