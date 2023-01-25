@@ -10,7 +10,7 @@ spec:
       description: Configure connection and authentication details for creating Replicated licenses
       items:
         - name: replicated_app
-          title: Replicated APP
+          title: Replicated App
           help_text: "A Replicated App ID or App Slug from [application settings](https://vendor.replicated.com/settings)"
           type: text
           required: true
@@ -41,7 +41,8 @@ spec:
             Consider including instructions for your user, or what they'll get
             when they sign up for a trial.
           type: textarea
-          default: |
+          # you might think this should be "default" but "value" gives a better UX
+          value: |
             Fill out the form fields to sign up for a free trial.
             You get 
               - A license to install $APPLICATION in your own infrastructure.
@@ -52,7 +53,8 @@ spec:
           help_text: >
             The markdown to display
           type: textarea
-          default: |
+          # you might think this should be "default" but "value" gives a better UX
+          value: |
             Now that you have a license, run the following to install it onto a VM:
               
                 curl https://k8s.kurl.sh/{{repl ConfigOption "replicated_app" }} | sudo bash

@@ -20,8 +20,10 @@ spec:
         apiOrigin: repl{{ ConfigOption "replicated_api_origin" }}
       form:
         title: repl{{ ConfigOption "title" }}
-#        introMarkdown: repl{{ ConfigOption "introMarkdown" }}
-#        installMarkdown: repl{{ ConfigOption "installMarkdown" }}
+        introMarkdown: |
+          repl{{ ConfigOption "introMarkdown" | nindent 10 }}
+        installMarkdown: |
+          repl{{ ConfigOption "installMarkdown" | nindent 10 }}
       license:
         channel: repl{{ ConfigOption "channel" }}
         expiresIn: repl{{ ConfigOption "expiresIn" }}
