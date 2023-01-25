@@ -25,6 +25,9 @@ spec:
             - name: http
               containerPort: 8888
               protocol: TCP
+          envFrom:
+            - secretRef:
+                name: enterprise-gtm-starter
           livenessProbe:
             httpGet:
               path: /healthz
