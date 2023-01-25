@@ -11,6 +11,7 @@ spec:
   values:
     image:
       tag: kots # temporary in dev, need to figure out tagging w/ GH releases...soon
+    isKurl: repl{{ IsKurl }}
     app:
       replicated:
         apiToken: repl{{ ConfigOption "replicated_api_token" }}
