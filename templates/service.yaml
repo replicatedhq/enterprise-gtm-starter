@@ -1,3 +1,5 @@
+{{- if .Values.isKurl -}}
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -5,11 +7,23 @@ metadata:
   labels:
     app: enterprise-gtm-starter
 spec:
-  type: {{ .Values.service.type }}
+  type: NodePort
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
-      protocol: TCP
-      name: http
+    - port: 80
+      nodePort: 8888
   selector:
     app: enterprise-gtm-starter
+{{- else -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: enterprise-gtm-starter
+  labels:
+    app: enterprise-gtm-starter
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+  selector:
+    app: enterprise-gtm-starter
+{{- end -}}

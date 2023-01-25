@@ -5,6 +5,8 @@ image:
   pullPolicy: IfNotPresent
   tag: "latest"
 
+isKurl: false
+
 app:
   replicated:
     # an api token for a replicated user or service account

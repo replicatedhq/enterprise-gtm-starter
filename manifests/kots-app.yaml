@@ -9,7 +9,7 @@ spec:
   statusInformers:
     - deployment/nginx
   ports:
-    - serviceName: "nginx"
+    - serviceName: "enterprise-gtm-starter"
       servicePort: 80
       localPort: 8888
-      applicationUrl: "http://nginx"
+      applicationUrl: "http://enterprise-gtm-starter"

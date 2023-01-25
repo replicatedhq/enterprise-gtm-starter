@@ -29,4 +29,5 @@ COPY --from=build /work/enterprise-gtm-starter /enterprise-gtm-starter
 COPY --from=build /work/preflight-config /preflight-config
 COPY --from=frontend /app/build /frontend
 ENV STATIC_DIR="/frontend"
+ENV GIN_ADDRESS=":8888"
 CMD ["/enterprise-gtm-starter"]
