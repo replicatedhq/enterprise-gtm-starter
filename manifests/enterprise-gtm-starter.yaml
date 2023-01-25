@@ -11,7 +11,7 @@ spec:
   useHelmInstall: true
   values:
     image:
-      tag: dfksjfl
+      tag: IMAGE_TAG
     isKurl: repl{{ IsKurl }}
     app:
       replicated:
@@ -33,4 +33,4 @@ spec:
         enableAirgap: '{{repl if ConfigOptionEquals "enableGitops" "1" }}true{{repl else }}false{{repl end }}'
   builder:
     image:
-      tag: dfksjfl
+      tag: IMAGE_TAG
