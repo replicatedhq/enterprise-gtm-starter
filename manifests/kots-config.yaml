@@ -83,13 +83,6 @@ spec:
             that specifies how long after creation generated licenses should expire
           type: text
           default: 720h
-        - name: expiresIn
-          title: License Duration
-          help_text: >
-            A valid [go duration](https://pkg.go.dev/maze.io/x/duration#ParseDuration)
-            that specifies how long after creation generated licenses should expire
-          type: text
-          default: 720h
         - name: licenseType
           title: License Type
           help_text: >
@@ -126,7 +119,7 @@ spec:
       description: Configure advanced / developer settings
       items:
         - name: customize_api_origin
-          title: Replicated API origin
+          title: Change Replicated API origin
           type: bool
           default: "0"
         - name: replicated_api_origin
