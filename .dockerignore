@@ -1,4 +1,10 @@
 .idea
+.github
+doc/
 frontend/node_modules
+templates/
+manifests/
+charts/
+
 
 
