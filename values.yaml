@@ -38,7 +38,7 @@ app:
 
   license:
     # to which channel should generated licenses have access
-    channel: ""
+    channel: Stable
     # how long should the license be valid? default 720h is about 1 month
     # requires a valid go duration
     expiresIn: 720h

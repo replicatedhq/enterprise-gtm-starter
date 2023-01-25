@@ -8,8 +8,26 @@ spec:
     chartVersion: 0.1.0
   helmVersion: v3
   useHelmInstall: true
-  values: {}
+  values:
+    image:
+      tag: kots # temporary in dev, need to figure out tagging w/ GH releases...soon
+    app:
+      replicated:
+        apiToken: repl{{ ConfigOption "replicated_api_token" }}
+        app: repl{{ ConfigOption "replicated_app" }}
+        apiOrigin: repl{{ ConfigOption "replicated_api_origin" }}
+      form:
+        title: repl{{ ConfigOption "title" }}
+        introMarkdown: repl{{ ConfigOption "introMarkdown" }}
+        installMarkdown: repl{{ ConfigOption "installMarkdown" }}
+      license:
+        channel: repl{{ ConfigOption "channel" }}
+        expiresIn: repl{{ ConfigOption "expiresIn" }}
+        type: repl{{ ConfigOption "licenseType" }}
+        enableGitops: repl{{ if ConfigOptionEquals "enableGitops" "1" }}truerepl{{ end }}
+        enableSnapshots: repl{{ if ConfigOptionEquals "enableGitops" "1" }}truerepl{{ end }}
+        enableAirgap: repl{{ if ConfigOptionEquals "enableGitops" "1" }}truerepl{{ end }}
   builder:
     image:
-      tag: "fake"
+      tag: kots
 

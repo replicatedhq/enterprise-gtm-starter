@@ -31,12 +31,15 @@ function Form(title, introMarkdown, installMarkdown) {
           email: email,
         }),
       });
-      setButtonText("Success");
+      setButtonText("Downloading...");
     } catch (e) {
       setError(e);
       setButtonText("Failed");
       return;
     }
+
+    // aka sleep 2s
+    await new Promise((res) => setTimeout(res, 1000))
 
     const body = await response.json();
     const downloadFileName = title.toLowerCase().replace(/[\W_]+/g,"-");
