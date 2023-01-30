@@ -30,7 +30,7 @@ func TestConfig(t *testing.T) {
 		{
 			name: "override channel",
 			env: map[string]string{
-				"REPLICATED_CHANNEL": "Unstable",
+				"LICENSE_CHANNEL": "Unstable",
 			},
 			expect: func(s *ServerConfig) {
 				s.ReplicatedChannel = "Unstable"

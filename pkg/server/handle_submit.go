@@ -104,5 +104,5 @@ func (h *Handlers) deliverWebhooks(request SubmitRequest, customer *types.Custom
 	}
 
 	log.Printf("webhook success, %v", resp.Body)
-
+	return nil
 }
