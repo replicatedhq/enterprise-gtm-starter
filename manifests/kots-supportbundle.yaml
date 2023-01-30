@@ -23,3 +23,16 @@ spec:
                   value: repl{{ ConfigOption "replicated_app" }}
                 - name: REPLICATED_API_TOKEN
                   value: repl{{ ConfigOption "replicated_api_token" }}
+              # todo add more env vars and error detection
+  analyzers:
+    - textAnalyze:
+        checkName: API Token
+        fileName: check-config
+        regex: '(401|App not found)'
+        outcomes:
+          - pass:
+              when: "false"
+              message: "API Token or App may be invalid"
+          - fail:
+              when: "true"
+              message: "API Token or APP may be invalid"

@@ -49,6 +49,9 @@ app:
     enableGitops: false
     enableSnapshots: false
     enableAirgap: false
+  notifications:
+    webhook:
+      url: ""
 
 
 

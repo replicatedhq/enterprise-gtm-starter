@@ -41,6 +41,8 @@ type ServerConfig struct {
 	EnableAirgap      bool   `env:"LICENSE_ENABLE_AIRGAP"`
 	EnableSnapshots   bool   `env:"LICENSE_ENABLE_SNAPSHOTS"`
 	LicenseType       bool   `env:"LICENSE_TYPE"`
+
+	NotificationWebhookURL string `env:"NOTIFICATION_WEBHOOK_URL"`
 }
 
 const OneMonth = "720h"

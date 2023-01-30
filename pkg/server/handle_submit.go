@@ -1,15 +1,26 @@
 package server
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/pkg/errors"
+	"github.com/replicatedhq/replicated/pkg/types"
+	"io"
+	"log"
+	"net/http"
 )
 
 type SubmitRequest struct {
 	Name  string `json:"name"`
 	Org   string `json:"org"`
 	Email string `json:"email"`
+}
+
+type WebhookNotificationPayload struct {
+	SubmitRequest `json:"inline"`
+	CustomerID    string `json:"customerId"`
 }
 
 func (h *Handlers) Submit(c *gin.Context) {
@@ -56,5 +67,42 @@ func (h *Handlers) handleSubmit(request SubmitRequest) ([]byte, error) {
 		return nil, errors.Wrap(err, "download license")
 	}
 
+	if h.ServerConfig.NotificationWebhookURL != "" {
+		err = h.deliverWebhooks(request, customer)
+		if err != nil {
+			return nil, errors.Wrap(err, "deliver notification webhook")
+		}
+	}
+
 	return licenseBytes, nil
+}
+
+func (h *Handlers) deliverWebhooks(request SubmitRequest, customer *types.Customer) error {
+	body, err := json.Marshal(WebhookNotificationPayload{
+		SubmitRequest: request,
+		CustomerID:    customer.ID,
+	})
+	if err != nil {
+		return errors.Wrap(err, "marshall webhook body")
+	}
+
+	resp, err := http.Post(
+		h.ServerConfig.NotificationWebhookURL,
+		"application/json",
+		bytes.NewReader(body),
+	)
+	if err != nil {
+		return errors.Wrap(err, "deliver notification")
+	}
+
+	defer resp.Body.Close()
+
+	if resp.StatusCode > 299 {
+		bodyBytes, _ := io.ReadAll(resp.Body)
+		log.Printf("webhook failed, %d: %s\n", resp.StatusCode, bodyBytes)
+		return errors.Errorf("deliver notification: response code %d while sending webhook", resp.StatusCode)
+	}
+
+	log.Printf("webhook success, %v", resp.Body)
+
 }
