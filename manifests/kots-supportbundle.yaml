@@ -9,4 +9,17 @@ spec:
     - logs:
         selector:
           - app=enterprise-gtm-starter
-        namespace: '{{repl Namespace }}'
+        namespace: repl{{ Namespace }}
+    - runPod:
+        name: check-config
+        namespace: repl{{ Namespace }}
+        podSpec:
+          containers:
+            - name: check-config
+              image: ghcr.io/replicatedhq/enterprise-gtm-starter:{{repl ConfigOption "git_version" }}
+              command: [/preflight-config]
+              env:
+                - name: REPLICATED_APP
+                  value: repl{{ ConfigOption "replicated_app" }}
+                - name: REPLICATED_API_TOKEN
+                  value: repl{{ ConfigOption "replicated_api_token" }}

@@ -4,6 +4,8 @@ metadata:
   name: enterprise-gtm-starter
   labels:
     app: enterprise-gtm-starter
+  annotations:
+    checksum/config: {{ include (print $.Template.BasePath "/config-secret.yaml") . | sha256sum }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
