@@ -153,4 +153,4 @@ spec:
           hidden: true
           type: text
           # will be substituted during github actions build
-          value: GITHUB_SHA
+          value: "GITHUB_SHA"
