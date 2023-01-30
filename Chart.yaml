@@ -4,3 +4,8 @@ description: An example application showcasing how to host a self-serve signup p
 type: application
 version: 0.1.0
 appVersion: "1.16.0"
+dependencies:
+  - name: admin-console
+    version: "1.83.0"
+    repository: "oci://registry.replicated.com/library"
+    condition: admin-console.enabled

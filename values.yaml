@@ -7,6 +7,9 @@ image:
 
 isKurl: false
 
+admin-console:
+  enabled: true
+
 app:
   replicated:
     # an api token for a replicated user or service account
@@ -52,8 +55,6 @@ app:
   notifications:
     webhook:
       url: ""
-
-
 
 imagePullSecrets: []
 nameOverride: ""

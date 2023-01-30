@@ -10,6 +10,8 @@ spec:
 
   useHelmInstall: true
   values:
+    admin-console:
+      enabled: false
     image:
       tag: repl{{ ConfigOption "git_version" }}
     isKurl: repl{{ IsKurl }}
@@ -35,3 +37,5 @@ spec:
   builder:
     image:
       tag: repl{{ ConfigOption "git_version" }}
+    admin-console:
+      enabled: false
