@@ -21,7 +21,9 @@ func TestConfig(t *testing.T) {
 		{
 			name: "override gin address",
 			env: map[string]string{
-				"GIN_ADDRESS": ":8081",
+				"GIN_ADDRESS":          ":8081",
+				"REPLICATED_API_TOKEN": os.Getenv("REPLICATED_API_TOKEN"),
+				"REPLICATED_APP":       os.Getenv("REPLICATED_APPP"),
 			},
 			expect: func(s *ServerConfig) {
 				s.GinAddress = ":8081"
@@ -61,6 +63,8 @@ func TestConfig(t *testing.T) {
 			expectConfig := DefaultConfig()
 			req.NoError(expectConfig.parseConfig())
 
+			expectConfig.ReplicatedAPIKey = os.Getenv("REPLICATED_API_TOKEN")
+			expectConfig.ReplicatedApp = os.Getenv("REPLICATED_APP")
 			test.expect(&expectConfig)
 
 			req.Equal(expectConfig, *config)

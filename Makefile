@@ -26,3 +26,20 @@ helm-release-dev:
 	helm dependency update
 	helm package -d manifests .
 	replicated release create --auto -y
+
+.PHONY: test
+test:
+	go test ./...
+
+.PHONY: vet
+vet:
+	go vet ./...
+
+.PHONY: vet
+lint:
+	replicated release lint --yaml-dir=manifests
+
+
+.PHONY: pre-push
+pre-push: check-env vet test lint
+	
