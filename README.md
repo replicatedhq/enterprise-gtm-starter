@@ -18,7 +18,35 @@ During operation, the project runs a web app and a backend API to generate and d
 Deploying
 ---------------------
 
-The Enterprise GTM starter can be configured and deployed directly to your existing Kubernetes cluster. The recommended installation method is to use [kots](https://github.com/replicatedhq/ship).
+The Enterprise GTM starter can be configured and deployed directly to your existing Kubernetes cluster. The recommended installation method is to use [helm](#helm-install) or [kots](#kots-install).
+
+#### Helm install
+
+To perform a Helm install, you can use the community license available in this repo under `dexter@replicated.com`
+
+```
+helm registry login registry.replicated.com --username dexter@replicated.com --password 2L3lLskMa8SsoJ4S4lHtl5Winhj
+```
+
+if you don't have `kubectl preflight` installed, install it with
+
+```
+curl https://krew.sh/preflight | bash
+```
+
+Execute preflight checks with:
+
+```
+kubectl preflight oci://registry.replicated.com/enterprise-gtm-starter
+```
+
+And, finally, install the chart with:
+
+```
+helm install enterprise-gtm-starter oci://registry.replicated.com/enterprise-gtm-starter/enterprise-gtm-starter
+```
+
+#### KOTS install
 
 ```
 curl https://kots.io/install

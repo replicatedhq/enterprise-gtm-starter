@@ -17,6 +17,8 @@ spec:
                   value: repl{{ ConfigOption "replicated_app" }}
                 - name: REPLICATED_API_TOKEN
                   value: repl{{ ConfigOption "replicated_api_token" }}
+        # for pre-config checks e.g. in oci:// preflight for helm install
+        exclude: repl{{ and (ConfigOptionEquals "replicated_app" "") (ConfigOptionEquals "replicated_api_token" "") }}
 
   analyzers:
     - textAnalyze:
@@ -30,6 +32,8 @@ spec:
           - fail:
               when: "true"
               message: "API Token or APP invalid"
+        # for pre-config checks e.g. in oci:// preflight for helm install
+        exclude: repl{{ and (ConfigOptionEquals "replicated_app" "") (ConfigOptionEquals "replicated_api_token" "") }}
     - clusterVersion:
         outcomes:
           - fail:
