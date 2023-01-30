@@ -22,14 +22,14 @@ spec:
     - textAnalyze:
         checkName: API Token
         fileName: check-config
-        regex: '401'
+        regex: '(401|App not found)'
         outcomes:
           - pass:
               when: "false"
-              message: "API Token Valid for app"
+              message: "API Token or App invalid"
           - fail:
               when: "true"
-              message: "API Token invalid"
+              message: "API Token or APP invalid"
     - clusterVersion:
         outcomes:
           - fail:
