@@ -132,7 +132,7 @@ spec:
               "customerId": "4398240342lkjcnlsadfnask2",
               "created": "2023-01-01T13:04:01Z",
             }
-          when: repl{{ (and (ConfigOptionEquals "enable_webhook" "1") (not (ConfigOptionEquals "webhook_url" "")) }}
+          when: repl{{ (and (ConfigOptionEquals "enable_webhook" "1") (not (ConfigOptionEquals "webhook_url" ""))) }}
     - name: advanced_settings
       title: Advanced Settings
       description: Configure advanced / developer settings
