@@ -116,11 +116,7 @@ spec:
           title: Receive a webhook when a user signs up
           type: bool
           default: "0"
-        - name: webhook_url
-          title: Webhook URL
-          type: text
-          when: repl{{ (ConfigOptionEquals "enable_webhook" "1") }}
-        - name: webhook_url_example
+        - name: webhook_payload_example
           title: Webhook Payload Example
           type: textarea
           readonly: true
@@ -132,7 +128,11 @@ spec:
               "customerId": "4398240342lkjcnlsadfnask2",
               "created": "2023-01-01T13:04:01Z",
             }
-          when: repl{{ (and (ConfigOptionEquals "enable_webhook" "1") (not (ConfigOptionEquals "webhook_url" ""))) }}
+          when: repl{{ (ConfigOptionEquals "enable_webhook" "1") }}
+        - name: webhook_url
+          title: Webhook URL
+          type: text
+          when: repl{{ (ConfigOptionEquals "enable_webhook" "1") }}
     - name: advanced_settings
       title: Advanced Settings
       description: Configure advanced / developer settings
