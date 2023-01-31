@@ -10,6 +10,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"time"
 )
 
 type SubmitRequest struct {
@@ -20,7 +21,8 @@ type SubmitRequest struct {
 
 type WebhookNotificationPayload struct {
 	SubmitRequest `json:"inline"`
-	CustomerID    string `json:"customerId"`
+	CustomerID    string    `json:"customerId"`
+	Created       time.Time `json:"created"`
 }
 
 func (h *Handlers) Submit(c *gin.Context) {
@@ -81,6 +83,7 @@ func (h *Handlers) deliverWebhooks(request SubmitRequest, customer *types.Custom
 	body, err := json.Marshal(WebhookNotificationPayload{
 		SubmitRequest: request,
 		CustomerID:    customer.ID,
+		Created:       time.Now(),
 	})
 	if err != nil {
 		return errors.Wrap(err, "marshall webhook body")
