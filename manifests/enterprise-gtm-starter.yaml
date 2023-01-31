@@ -36,7 +36,7 @@ spec:
         enableAirgap: '{{repl if ConfigOptionEquals "enableGitops" "1" }}true{{repl else }}false{{repl end }}'
       notifications:
         webhook:
-          url: '{{repl ConfigOption "webhook_url }}'
+          url: '{{repl ConfigOption "webhook_url" }}'
   builder:
     image:
       tag: repl{{ ConfigOption "git_version" }}
