@@ -1,8 +1,10 @@
 .idea
-node_modules
-coverage/
-.nyc_output
-kustomize/
-Tiltfile
+.github
+doc/
+frontend/node_modules
+templates/
+manifests/
+charts/
+
 
 

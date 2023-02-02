@@ -1,26 +1,34 @@
-FROM node:8-alpine as build
-RUN mkdir /app
+FROM node:alpine as frontend
 WORKDIR /app
-ADD package.json /app/package.json
-ADD package-lock.json /app/package-lock.json
-RUN npm install --pure-lockfile
-ENV NODE_ENV=production
+COPY frontend/package.json /app
+COPY frontend/package-lock.json /app
+RUN npm install
+COPY frontend /app
+RUN npm run build
 
-ADD . /app
-RUN npm run tslint
-RUN npm run test
-RUN npx tsc --project .
-RUN npm run build-fe
 
-FROM node:8-alpine
+FROM cgr.dev/chainguard/go:latest as build
+ARG ARCH=amd64
 
-RUN mkdir -p /app
-RUN mkdir -p /run/nginx
-WORKDIR /app
-RUN apk add --no-cache ca-certificates nginx
-COPY nginx-server.conf /etc/nginx/conf.d/default.conf
-COPY --from=build /app/build /app/build
-COPY --from=build /app/tsc-out /app/tsc-out
-COPY --from=build /app/node_modules /app/node_modules
+WORKDIR /work
 
-CMD ["node", "/app/tsc-out/server/index.js"]
+COPY go.mod /work
+COPY go.sum /work
+RUN go mod download
+COPY ./cmd /work/cmd
+COPY ./pkg /work/pkg
+
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=${ARCH} \
+    go build -o enterprise-gtm-starter ./cmd/enterprise-gtm-starter
+
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=${ARCH} \
+    go build -o preflight-config ./cmd/preflight-config
+
+FROM cgr.dev/chainguard/static:latest
+
+COPY --from=build /work/enterprise-gtm-starter /enterprise-gtm-starter
+COPY --from=build /work/preflight-config /preflight-config
+COPY --from=frontend /app/build /frontend
+ENV STATIC_DIR="/frontend"
+ENV GIN_ADDRESS=":8888"
+CMD ["/enterprise-gtm-starter"]

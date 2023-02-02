@@ -1,0 +1,85 @@
+apiVersion: troubleshoot.sh/v1beta2
+kind: Preflight
+metadata:
+  name: preflight-checks
+spec:
+  collectors:
+    - runPod:
+        name: check-config
+        namespace: repl{{ Namespace }}
+        podSpec:
+          containers:
+            - name: check-config
+              image: ghcr.io/replicatedhq/enterprise-gtm-starter:{{repl ConfigOption "git_version" }}
+              command: [/preflight-config]
+              env:
+                - name: REPLICATED_APP
+                  value: repl{{ ConfigOption "replicated_app" }}
+                - name: REPLICATED_API_TOKEN
+                  value: repl{{ ConfigOption "replicated_api_token" }}
+        # for pre-config checks e.g. in oci:// preflight for helm install
+        exclude: repl{{ and (ConfigOptionEquals "replicated_app" "") (ConfigOptionEquals "replicated_api_token" "") }}
+
+  analyzers:
+    - textAnalyze:
+        checkName: API Token
+        fileName: check-config
+        regex: '(401|App not found)'
+        outcomes:
+          - pass:
+              when: "false"
+              message: "API Token or App invalid"
+          - fail:
+              when: "true"
+              message: "API Token or APP invalid"
+        # for pre-config checks e.g. in oci:// preflight for helm install
+        exclude: repl{{ and (ConfigOptionEquals "replicated_app" "") (ConfigOptionEquals "replicated_api_token" "") }}
+    - clusterVersion:
+        outcomes:
+          - fail:
+              when: "< 1.22.0"
+              message: The application requires Kubernetes 1.22.0 or later, and recommends 1.23.0 or later.
+              uri: https://www.kubernetes.io
+          - warn:
+              when: "< 1.23.0"
+              message: Your cluster meets the minimum version of Kubernetes, but we recommend you update to 1.23.0 or later.
+              uri: https://kubernetes.io
+          - pass:
+              message: Your cluster meets the recommended version of Kubernetes.
+    - containerRuntime:
+        outcomes:
+          - pass:
+              when: "== containerd"
+              message: containerd container runtime was found.
+          - fail:
+              message: Did not find containerd container runtime.
+    - distribution:
+        outcomes:
+          - pass:
+              when: "== eks"
+              message: EKS is a supported distribution.
+          - pass:
+              when: "== gke"
+              message: GKE is a supported distribution.
+          - pass:
+              when: "== aks"
+              message: AKS is a supported distribution.
+          - pass:
+              when: "== kurl"
+              message: kURL is a supported distribution.
+          - pass:
+              when: "== digitalocean"
+              message: DigitalOcean is a supported distribution.
+          - warn:
+              message: Unable to determine the distribution of Kubernetes.
+    - nodeResources:
+        checkName: Total CPU Cores
+        outcomes:
+          - fail:
+              when: "sum(cpuCapacity) < 2"
+              message: The cluster must contain at least 2 cores, and should contain at least 4 cores.
+          - warn:
+              when: "sum(cpuCapacity) < 4"
+              message: The cluster should contain at least 4 cores.
+          - pass:
+              message: There are at least 4 cores in the cluster.

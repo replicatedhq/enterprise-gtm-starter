@@ -1,0 +1,156 @@
+---
+apiVersion: kots.io/v1beta1
+kind: Config
+metadata:
+  name: config-sample
+spec:
+  groups:
+    - name: replicated_settings
+      title: Replicated Settings
+      description: Configure connection and authentication details for creating Replicated licenses
+      items:
+        - name: replicated_app
+          title: Replicated App
+          help_text: "A Replicated App ID or App Slug from [application settings](https://vendor.replicated.com/settings)"
+          type: text
+          required: true
+        - name: replicated_api_token
+          title: Replicated API Token
+          help_text: >
+            A Replicated [user](https://vendor.replicated.com/account-settings) 
+            or [service account](https://vendor.replicated.com/team/serviceaccounts) token
+          type: password
+          required: true
+    - name: form_settings
+      title: Form Settings
+      description: > 
+        Configure how the form displays on the landing page and the install instructions
+        to be displayed.
+      items:
+        - name: title
+          title: Title
+          help_text: >
+            The title to display on the landing page. This should probably be something like
+            "<Your App Name>" or "Sign up for a free trial of <Your App Name>"
+          type: text
+          default: Sign up for repl{{ ConfigOption "replicated_app" }}
+        - name: introMarkdown
+          title: Intro Markdown
+          help_text: >
+            The markdown to display on the left side of the landing page.
+            Consider including instructions for your user, or what they'll get
+            when they sign up for a trial.
+          type: textarea
+          # you might think this should be "default" but "value" gives a better UX
+          value: |
+            Fill out the form fields to sign up for a free trial.
+            You get 
+              - A license to install $APPLICATION in your own infrastructure.
+              - Full access to the whole platform for 30 days
+              - Optional hands-on onboarding with one of our solutions engineers
+        - name: installMarkdown
+          title: Install Markdown
+          help_text: >
+            The markdown to display
+          type: textarea
+          # you might think this should be "default" but "value" gives a better UX
+          value: |
+            Now that you have a license, run the following to install it onto a VM:
+              
+                curl https://k8s.kurl.sh/{{repl ConfigOption "replicated_app" }} | sudo bash
+            
+            If you already have a cluster, you can run
+            
+                curl https://kots.io/install | bash
+                kubectl kots install {{repl ConfigOption "replicated_app" }}
+    - name: license_settings
+      title: License Settings
+      description: >
+        Configure various details of the licenses that will be created for users
+        who sign up using the form
+      items:
+        - name: channel
+          title: Replicated Channel
+          help_text: >
+            To which channel should generated licenses have access?
+          type: text
+          default: Stable
+        - name: expiresIn
+          title: License Duration
+          help_text: >
+            A valid [go duration](https://pkg.go.dev/maze.io/x/duration#ParseDuration)
+            that specifies how long after creation generated licenses should expire
+          type: text
+          default: 720h
+        - name: licenseType
+          title: License Type
+          help_text: >
+            What type of license should be assigned to users who sign up?
+          type: select_one
+          default: trial
+          items:
+            - name: trial
+              title: Trial
+            - name: paid
+              title: Paid
+            - name: community
+              title: Community
+        - name: enableGitops
+          title: Enable GitOps
+          type: bool
+          default: "0"
+        - name: enableSnapshots
+          title: Enable Snapshots
+          type: bool
+          default: "0"
+        - name: enableAirgap
+          title: Enable Airgap
+          type: bool
+          default: "0"
+    - name: notification_settings
+      title: Notification Settings
+      description: >
+        Configure notifications when a user signs up for a new license.
+      items:
+        - name: enable_webhook
+          title: Receive a webhook when a user signs up
+          type: bool
+          default: "0"
+        - name: webhook_payload_example
+          title: Webhook Payload Example
+          type: textarea
+          readonly: true
+          value: |
+            {
+              "name": "Vincenzo Motorola",
+              "org": "Tito's",
+              "email": "vinny@titos.com",
+              "customerId": "4398240342lkjcnlsadfnask2",
+              "created": "2023-01-01T13:04:01Z",
+            }
+          when: repl{{ (ConfigOptionEquals "enable_webhook" "1") }}
+        - name: webhook_url
+          title: Webhook URL
+          type: text
+          when: repl{{ (ConfigOptionEquals "enable_webhook" "1") }}
+    - name: advanced_settings
+      title: Advanced Settings
+      description: Configure advanced / developer settings
+      items:
+        - name: advanced_settings
+          title: Customize Advanced Settings
+          type: bool
+          default: "0"
+        - name: replicated_api_origin
+          title: Replicated API origin
+          help_text: >
+            This is an advanced field. You can use it to change where Replicated API requests
+            will be sent.
+          type: text
+          default: https://api.replicated.com/vendor
+          when: repl{{ ConfigOptionEquals "advanced_settings" "1" }}
+        - name: git_version
+          hidden: true
+          type: text
+          # will be substituted during github actions build
+          value: "GITHUB_SHA"

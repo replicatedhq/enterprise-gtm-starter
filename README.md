@@ -18,66 +18,100 @@ During operation, the project runs a web app and a backend API to generate and d
 Deploying
 ---------------------
 
-The Enterprise GTM starter can be configured and deployed directly to your existing Kubernetes cluster. The recommended installation method is to use [ship](https://github.com/replicatedhq/ship).
+The Enterprise GTM starter can be configured and deployed directly to your existing Kubernetes cluster. The recommended installation method is to use [helm](#helm-install) or [kots](#kots-install).
+
+#### Helm install
+
+To perform a Helm install, you can use the community license available in this repo under `dexter@replicated.com`
 
 ```
-brew install ship
-ship init github.com/replicatedhq/enterprise-gtm-starter
+helm registry login registry.replicated.com --username dexter@replicated.com --password 2L3lLskMa8SsoJ4S4lHtl5Winhj
 ```
 
-Ship will walk you through setting up the required fields for running the project in your infrastructure. These include
+if you don't have `kubectl preflight` installed, install it with
+
+```
+curl https://krew.sh/preflight | bash
+```
+
+Execute preflight checks with:
+
+```
+kubectl preflight oci://registry.replicated.com/enterprise-gtm-starter
+```
+
+And, finally, install the chart with:
+
+```
+helm install enterprise-gtm-starter oci://registry.replicated.com/enterprise-gtm-starter/enterprise-gtm-starter
+```
+
+#### KOTS install
+
+```
+curl https://kots.io/install
+kubectl kots install enterprise-gtm-starter
+```
+
+You'll need to procure a community license for the project, one can be found in this repo.
+
+The KOTS configuration screen will allow you to configure:
 
 - Replicated API token and Application details
 - Trial duration and expiration behavior
 - Custom copy and whitelabeling
 
-![setup](./doc/setup.png)
-
 Customizing
 ---------------------
 
-As noted in [deploying](#deploying), there are a number of options that can be used to customize the messaging and operation of the go to market portal. However, while the project aims to present some basic customizations, it is also designed to be a minimal POC. Therefore, rich customization like CSS, extra fields, etc are not supported. Instead, it's recommended that you import or copy the relevant pieces of this project into your own application.
+As noted in [deploying](#deploying), there are a number of options that can be used to customize the messaging and operation of the go to market portal.
+However, while the project aims to present some basic customizations, it is also designed to be a minimal POC.
+Therefore, rich customization like CSS, extra fields, etc are not supported.
+Instead, it's recommended that you import or copy the relevant pieces of this project into your own application.
 
 Developing
 ------------
 
-- Create a kustomize overlay with your username:
+### Environment
 
-```bash
-mkdir kustomize/overlays/dev_${USER}
+As usual, set
+
+```
+REPLICATED_API_TOKEN
+REPLICATED_APP
 ```
 
-```bash
-echo '
-bases:
-  - ../dev
+You can also set
 
-patches:
-  - ./deployment.yaml
- ' > kustomize/overlays/dev_${USER}/kustomization.yaml
+
 ```
-- create the placeholder patch:
-```bash
-echo 'apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: backend
-spec:
-  template:
-    spec:
-      containers:
-        - name: backend
-          env:
-            - name: REPLICATED_API_TOKEN
-              value: edit me
-            - name: REPLICATED_APP
-              value: edit me
-            - name: REPLICATED_CHANNEL_ID
-              value: edit me
-  ' > kustomize/overlays/dev_${USER}/deployment.yaml
+GIN_ADDRESS # defaults to :8800
+PROXY_FRONTEND # default to FE server @ localhost:3000
+REPLICATED_API_ORIGIN # defaults to https://api.replicated.com/vendor
+REPLICATED_CHANNEL # defaults to Stable
+LICENSE_DURATION # defaults to 720h, about 1 month
 ```
-- Edit `kustomize/overlays/dev_${USER}/deployment.yaml` with your app ID and API keys from vendor.replicated.com (you can create an API token from the "teams and tokens" page. You can get your channel ID from `replicated channel ls` with the [replicated CLI](https://github.com/replicatedhq/replicated)
-- Get [Tilt](https://github.com/windmilleng/tilt)
-- Get a kubernetes cluster (probably in Docker for Desktop but Minikube/GKE/EKS/etc.. works fine too)
-- run `tilt up` to run the stack and watch for changes
-- navigate to http://localhost:3000
+
+### Running Locally
+
+In one window, run
+
+```
+cd frontend
+npm install
+npm run start
+```
+
+In another, from the root of the repo
+
+```
+make serve
+```
+
+### Docker
+
+You can also build a single docker image to run the frontend and backend, but this will be a slower iteration loop
+
+```
+docker build . -t enterprise-gtm-starter && docker run --rm -p 8888:8888 -it -e REPLICATED_API_TOKEN -e REPLICATED_APP enterprise-gtm-starter
+```
