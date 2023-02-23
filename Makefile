@@ -43,3 +43,8 @@ lint:
 .PHONY: pre-push
 pre-push: check-env vet test lint
 	
+.PHONY: pre-push
+setup-git-hooks:
+	echo "make pre-push" > .git/hooks/pre-push
+	chmod +x .git/hooks/pre-push
+

@@ -20,7 +20,6 @@ func Main() error {
 	}
 
 	router := gin.Default()
-	//router.GET("/api/healthz", handlers.Healthz)
 
 	apiRoutes := router.Group("/api")
 	apiRoutes.GET("/healthz", handlers.Healthz)

@@ -92,6 +92,18 @@ REPLICATED_CHANNEL # defaults to Stable
 LICENSE_DURATION # defaults to 720h, about 1 month
 ```
 
+To set up linting and testing before pushing, run
+
+```
+make setup-git-hooks
+```
+
+This will add a file at `.git/hooks/pre-push` to run `make pre-push`. To just run the tests once, run
+
+```
+make pre-push
+```
+
 ### Running Locally
 
 In one window, run
