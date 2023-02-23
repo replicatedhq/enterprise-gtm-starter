@@ -4,13 +4,5 @@ kind: Application
 metadata:
   name: enterprise-gtm-starter
 spec:
-  title: Enterprise GTM Starter
-  requireMinimalRBAC: true
-  statusInformers:
-    - deployment/enterprise-gtm-starter
-  ports:
-    - serviceName: "enterprise-gtm-starter"
-      servicePort: 8888
-      localPort: 8888
-      applicationUrl: "http://enterprise-gtm-starter"
+  title: MyApp
   icon: https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSa6IpLT8VVWQDXoPuirydW6MC_BfKnuCOZA&usqp=CAU
