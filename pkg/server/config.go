@@ -40,7 +40,7 @@ type ServerConfig struct {
 	EnableGitops      bool   `env:"LICENSE_ENABLE_GITOPS"`
 	EnableAirgap      bool   `env:"LICENSE_ENABLE_AIRGAP"`
 	EnableSnapshots   bool   `env:"LICENSE_ENABLE_SNAPSHOTS"`
-	LicenseType       bool   `env:"LICENSE_TYPE"`
+	LicenseType       string `env:"LICENSE_TYPE"`
 
 	NotificationWebhookURL string `env:"NOTIFICATION_WEBHOOK_URL"`
 }
